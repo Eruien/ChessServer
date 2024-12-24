@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "VTw6rQeUfpA=",
+  "dgSpecHash": "lbFsMh/ach4=",
   "success": true,
-  "projectFilePath": "C:\\Users\\ogkim\\Desktop\\ChessServer\\ServerCore\\ServerCore.csproj",
+  "projectFilePath": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\ServerCore\\ServerCore.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

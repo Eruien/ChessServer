@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ogkim\\Desktop\\ChessServer\\ServerCore\\ServerCore.csproj",
+      "projectUniqueName": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\ServerCore\\ServerCore.csproj",
       "projectName": "ServerCore",
-      "projectPath": "C:\\Users\\ogkim\\Desktop\\ChessServer\\ServerCore\\ServerCore.csproj",
+      "projectPath": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\ServerCore\\ServerCore.csproj",
       "packagesPath": "C:\\Users\\ogkim\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ogkim\\Desktop\\ChessServer\\ServerCore\\obj\\",
+      "outputPath": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\ServerCore\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

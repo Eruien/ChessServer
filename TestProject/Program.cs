@@ -29,7 +29,8 @@ class Program
     static void Main(string[] args)
     {
        
-        HasValue<int>(0);
+       
+       
     }
 }
 
