@@ -2,16 +2,23 @@ using ServerContent;
 
 public class MonsterManager
 {
-    private List<BaseMonster> MonsterList = new List<BaseMonster>(); 
+    private Dictionary<int, BaseMonster> MonsterList = new Dictionary<int, BaseMonster>(); 
 
-    public void Register(BaseMonster obj)
+    public void Register(int id, BaseMonster obj)
     {
-        MonsterList.Add(obj);
+        MonsterList.Add(id, obj);
     }
 
     public void UnRegister(BaseMonster obj)
     {
-        MonsterList.Remove(obj);
-        obj = null;
+       
+    }
+
+    public void Frame()
+    {
+        foreach (var monster in MonsterList)
+        {
+            monster.Value.Frame();
+        }
     }
 }

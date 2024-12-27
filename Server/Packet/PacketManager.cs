@@ -32,6 +32,12 @@ namespace Server
 
             m_MakePacketDict.Add((ushort)PacketType.MovePacket, MakePacket<MovePacket>);
             m_RunFunctionDict.Add((ushort)PacketType.MovePacket, PacketHandler.Instance.MovePacketHandler);
+
+            m_MakePacketDict.Add((ushort)PacketType.GameStart, MakePacket<GameStartPacket>);
+            m_RunFunctionDict.Add((ushort)PacketType.GameStart, PacketHandler.Instance.GameStartPacketHandler);
+
+            m_MakePacketDict.Add((ushort)PacketType.C_MonsterCreate, MakePacket<C_MonsterCreatePacket>);
+            m_RunFunctionDict.Add((ushort)PacketType.C_MonsterCreate, PacketHandler.Instance.C_MonsterCreatePacketHandler);
         }
 
         public int OnRecvPacket(Session session, ArraySegment<byte> buffer)

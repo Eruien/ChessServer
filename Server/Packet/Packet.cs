@@ -13,6 +13,8 @@ namespace Server
         Player,
         PlayerList,
         S_BroadcastEnterGame,
+        GameStart,
+        C_MonsterCreate,
     }
 
     public interface IPacket
@@ -27,6 +29,100 @@ namespace Server
     {
         protected ushort m_PacketSize = 0;
         protected ushort m_PacketID = 0;
+    }
+
+    public class C_MonsterCreatePacket : PacketHeader, IPacket
+    {
+        public ushort monsterId = 0;
+        public ushort monsterTeam = 0;
+        public float PosX = 0;
+        public float PosY = 0;
+        public float PosZ = 0;
+
+        public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 2 + sizeof(float) * 3; } }
+        public ushort PacketID { get { return m_PacketID; } }
+
+        public C_MonsterCreatePacket()
+        {
+            m_PacketSize = PacketSize;
+            m_PacketID = (ushort)PacketType.C_MonsterCreate;
+        }
+
+        public void Read(ArraySegment<byte> segment)
+        {
+            int count = 0;
+            count += sizeof(ushort);
+            count += sizeof(ushort);
+            this.monsterId = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            count += sizeof(ushort);
+            this.monsterTeam = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            count += sizeof(ushort);
+            this.PosX = BitConverter.ToSingle(segment.Array, segment.Offset + count);
+            count += sizeof(float);
+            this.PosY = BitConverter.ToSingle(segment.Array, segment.Offset + count);
+            count += sizeof(float);
+            this.PosZ = BitConverter.ToSingle(segment.Array, segment.Offset + count);
+            count += sizeof(float);
+        }
+
+        public ArraySegment<byte> Write()
+        {
+            int count = 0;
+            ArraySegment<byte> segment = SendBufferHelper.Open(4096);
+            Array.Copy(BitConverter.GetBytes(this.m_PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.monsterId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.monsterTeam), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.PosX), 0, segment.Array, segment.Offset + count, sizeof(float));
+            count += sizeof(float);
+            Array.Copy(BitConverter.GetBytes(this.PosY), 0, segment.Array, segment.Offset + count, sizeof(float));
+            count += sizeof(float);
+            Array.Copy(BitConverter.GetBytes(this.PosZ), 0, segment.Array, segment.Offset + count, sizeof(float));
+            count += sizeof(float);
+
+            return SendBufferHelper.Close(count);
+        }
+    }
+
+    public class GameStartPacket : PacketHeader, IPacket
+    {
+        public bool IsGameStart = false;
+
+        public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(bool) * 1; } }
+        public ushort PacketID { get { return m_PacketID; } }
+
+        public GameStartPacket()
+        {
+            m_PacketSize = PacketSize;
+            m_PacketID = (ushort)PacketType.GameStart;
+        }
+
+        public void Read(ArraySegment<byte> segment)
+        {
+            int count = 0;
+            count += sizeof(ushort);
+            count += sizeof(ushort);
+            this.IsGameStart = BitConverter.ToBoolean(segment.Array, segment.Offset + count);
+            count += sizeof(bool);
+        }
+
+        public ArraySegment<byte> Write()
+        {
+            int count = 0;
+            ArraySegment<byte> segment = SendBufferHelper.Open(4096);
+            Array.Copy(BitConverter.GetBytes(this.m_PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.IsGameStart), 0, segment.Array, segment.Offset + count, sizeof(bool));
+            count += sizeof(bool);
+
+            return SendBufferHelper.Close(count);
+        }
     }
 
     public class MonsterPurchasePacket : PacketHeader, IPacket
@@ -110,11 +206,12 @@ namespace Server
 
     public class MovePacket : PacketHeader, IPacket
     {
+        public ushort monsterId = 0;
         public float PosX = 0;
         public float PosY = 0;
         public float PosZ = 0;
 
-        public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(float) * 3; } }
+        public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 1 + sizeof(float) * 3; } }
         public ushort PacketID { get { return m_PacketID; } }
         public MovePacket()
         {
@@ -126,6 +223,8 @@ namespace Server
         {
             int count = 0;
             count += sizeof(ushort);
+            count += sizeof(ushort);
+            this.monsterId = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
             count += sizeof(ushort);
             this.PosX = BitConverter.ToSingle(segment.Array, segment.Offset + count);
             count += sizeof(float);
@@ -142,6 +241,8 @@ namespace Server
             Array.Copy(BitConverter.GetBytes(this.m_PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.monsterId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.PosX), 0, segment.Array, segment.Offset + count, sizeof(float));
             count += sizeof(float);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using ServerContent;
 using ServerCore;
 
 namespace Server
@@ -44,6 +45,28 @@ namespace Server
         public void MovePacketHandler(Session session, IPacket packet)
         {
             Console.WriteLine("Move Pacekt Handler 작동");
+        }
+
+        public void GameStartPacketHandler(Session session, IPacket packet)
+        {
+            GameStartPacket purchasePacket = packet as GameStartPacket;
+            if (purchasePacket.IsGameStart)
+            {
+                Program.g_IsGameStart = true;
+            }
+        }
+
+        public void C_MonsterCreatePacketHandler(Session session, IPacket packet)
+        {
+            C_MonsterCreatePacket monsterCreatePacket = packet as C_MonsterCreatePacket;
+            Labo labo = new Labo();
+            BaseMonster monster = new BaseMonster();
+            labo.Init();
+            monster.Init();
+            monster.SetTarget(labo);
+            monster.SetPosition(monsterCreatePacket.PosX, monsterCreatePacket.PosY, monsterCreatePacket.PosZ);
+            monster.monsterId = monsterCreatePacket.monsterId;
+            Managers.Monster.Register(monsterCreatePacket.monsterId, monster);
         }
     }
 }

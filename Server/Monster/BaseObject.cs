@@ -10,6 +10,7 @@ namespace ServerContent
         public bool IsDeath { get; set; } = false;
 
         public Vector3 position = new Vector3(0.0f, 0.0f, 0.0f);
+        public abstract void SetPosition(float x, float y, float z);
         protected abstract void SetBlackBoardKey();
     }
 }

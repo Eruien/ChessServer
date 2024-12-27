@@ -1,3 +1,4 @@
+using Server;
 using System.Numerics;
 
 namespace ServerContent
@@ -10,11 +11,16 @@ namespace ServerContent
         public MonsterState monsterState = MonsterState.None;
         private Selector selector;
 
+        public int monsterId = 0;
+        private float startMovePacketTime = 0.01f;
+        private float currentTime = 0.0f;
+
         public void Init()
         {
             SelfType = ObjectType.Monster;
             selector = new Selector();
             SetBlackBoardKey();
+            Start();
         }
 
         protected void Start()
@@ -26,7 +32,7 @@ namespace ServerContent
             Sequence<float, b_float> checkHPZero = new Sequence<float, b_float>(KeyQuery.IsLessThanOrEqualTo, 0.001f, blackBoard.m_HP);
             HPMgr.AddChild(checkHPZero);
 
-            Action action = new Action(IsHPZero);
+            ServerContent.Action action = new ServerContent.Action(IsHPZero);
             checkHPZero.AddChild(action);
 
             // 공격 관리
@@ -53,19 +59,17 @@ namespace ServerContent
             move.AddChild(moveAction);
         }
 
-        protected void Frame()
+        public void Frame()
         {
+            currentTime += (float)LTimer.m_SPF;
             selector.Tick();
         }
 
         // 일반 함수
-        private double ComputeAttackDistance()
+        public void SetTarget(BaseObject arg)
         {
-            if (target == null) return blackBoard.m_AttackDistance.Key;
-            Vector3 vec = target.position - position;
-            double dis = Math.Pow(vec.X * vec.X + vec.Z * vec.Z, 0.5f);
-
-            return dis;
+            target = arg;
+            blackBoard.m_TargetObject.Key = target;
         }
 
         protected override void SetBlackBoardKey()
@@ -81,6 +85,22 @@ namespace ServerContent
             blackBoard.m_ProjectTileSpeed.Key = Managers.Data.monsterDict[this.GetType().Name].projectTileSpeed;
         }
 
+        public override void SetPosition(float x, float y, float z)
+        {
+            position = new Vector3(x, y, z);
+        }
+
+        private double ComputeAttackDistance()
+        {
+            if (target == null) return blackBoard.m_AttackDistance.Key;
+            Vector3 vec = target.position - position;
+            double dis = Math.Pow(vec.X * vec.X + vec.Z * vec.Z, 0.5f);
+
+            return dis;
+        }
+
+       
+
         // TaskNode 모음
         private ReturnCode Attack()
         {
@@ -91,8 +111,21 @@ namespace ServerContent
         private ReturnCode MoveToPosition()
         {
             monsterState = MonsterState.Move;
-            // 이동하는 로직 구현
-
+            Vector3 dir = Vector3.Normalize(target.position - position);
+            position += dir * blackBoard.m_MoveSpeed.Key * (float)LTimer.m_SPF;
+            // 패킷 보내기
+            MovePacket movePacket = new MovePacket();
+            movePacket.monsterId = (ushort)monsterId;
+            movePacket.PosX = position.X;
+            movePacket.PosY = position.Y;
+            movePacket.PosZ = position.Z;
+           
+            if (currentTime >= startMovePacketTime)
+            {
+                currentTime = 0.0f;
+                Program.g_GameRoom.BroadCast(movePacket.Write());
+            }
+            
             return ReturnCode.SUCCESS;
         }
 
