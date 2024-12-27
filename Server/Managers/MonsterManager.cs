@@ -2,11 +2,14 @@ using ServerContent;
 
 public class MonsterManager
 {
+    public static int MonsterCount { get; set; } = 0;
     private Dictionary<int, BaseMonster> MonsterList = new Dictionary<int, BaseMonster>(); 
 
-    public void Register(int id, BaseMonster obj)
+    public int Register(BaseMonster obj)
     {
-        MonsterList.Add(id, obj);
+        MonsterCount++;
+        MonsterList.Add(MonsterCount, obj);
+        return MonsterCount;
     }
 
     public void UnRegister(BaseMonster obj)

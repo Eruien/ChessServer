@@ -23,6 +23,9 @@ namespace Server
             if (purchasePacket.userGameMoney >= purchasePacket.monsterPrice)
             {
                 purchaseAllowed.IsPurchase = true;
+                purchaseAllowed.PosX = purchasePacket.PosX;
+                purchaseAllowed.PosY = purchasePacket.PosY;
+                purchaseAllowed.PosZ = purchasePacket.PosZ;
             }
             else
             {
@@ -34,7 +37,7 @@ namespace Server
             if (clientSession.GameRoom == null) return;
 
             Room room = clientSession.GameRoom;
-            room.BroadCast(purchaseAllowed.Write());
+            room.Push(() => clientSession.Send(purchaseAllowed.Write()));
         }
 
         public void PurchaseAllowedPacketHandler(Session session, IPacket packet)
@@ -65,8 +68,21 @@ namespace Server
             monster.Init();
             monster.SetTarget(labo);
             monster.SetPosition(monsterCreatePacket.PosX, monsterCreatePacket.PosY, monsterCreatePacket.PosZ);
-            monster.monsterId = monsterCreatePacket.monsterId;
-            Managers.Monster.Register(monsterCreatePacket.monsterId, monster);
+            monster.monsterId = Managers.Monster.Register(monster);
+
+            S_BroadcastMonsterCreatePacket broadcastMonsterPacket = new S_BroadcastMonsterCreatePacket();
+            broadcastMonsterPacket.monsterTeam = monsterCreatePacket.monsterTeam;
+            broadcastMonsterPacket.monsterId = (ushort)monster.monsterId;
+            broadcastMonsterPacket.PosX = monsterCreatePacket.PosX;
+            broadcastMonsterPacket.PosY = monsterCreatePacket.PosY;
+            broadcastMonsterPacket.PosZ = monsterCreatePacket.PosZ;
+           
+            ClientSession clientSession = session as ClientSession;
+
+            if (clientSession.GameRoom == null) return;
+
+            Room room = clientSession.GameRoom;
+            room.BroadCast(broadcastMonsterPacket.Write());
         }
     }
 }

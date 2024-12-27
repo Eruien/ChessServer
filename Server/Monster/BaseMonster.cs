@@ -111,7 +111,17 @@ namespace ServerContent
         private ReturnCode MoveToPosition()
         {
             monsterState = MonsterState.Move;
-            Vector3 dir = Vector3.Normalize(target.position - position);
+            Vector3 dir = target.position - position;
+
+            if (dir == Vector3.Zero)
+            {
+                dir = Vector3.Zero;
+            }
+            else
+            {
+                dir = Vector3.Normalize(dir);
+            }
+
             position += dir * blackBoard.m_MoveSpeed.Key * (float)LTimer.m_SPF;
             // 패킷 보내기
             MovePacket movePacket = new MovePacket();
