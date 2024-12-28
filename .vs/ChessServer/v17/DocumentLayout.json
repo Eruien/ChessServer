@@ -3,14 +3,6 @@
   "WorkspaceRootPath": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\packet\\packethandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|solutionrelative:server\\packet\\packethandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\managers\\datamanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|solutionrelative:server\\managers\\datamanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\packet\\packet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|solutionrelative:server\\packet\\packet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -19,36 +11,12 @@
       "RelativeMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|solutionrelative:server\\monster\\basemonster.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\monster\\baseobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|solutionrelative:server\\monster\\baseobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\monster\\labo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|solutionrelative:server\\monster\\labo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\behaviortree\\blackboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|solutionrelative:server\\behaviortree\\blackboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\util\\utilitylog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|solutionrelative:server\\util\\utilitylog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\managers\\monstermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|solutionrelative:server\\managers\\monstermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\behaviortree\\composite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|solutionrelative:server\\behaviortree\\composite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\managers\\managers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|solutionrelative:server\\managers\\managers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\behaviortree\\decoratefunc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|solutionrelative:server\\behaviortree\\decoratefunc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\behaviortree\\composite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|solutionrelative:server\\behaviortree\\composite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\packet\\packetmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -57,6 +25,38 @@
     {
       "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\clientsession.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|solutionrelative:server\\clientsession.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\packet\\packethandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|solutionrelative:server\\packet\\packethandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\behaviortree\\decoratefunc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|solutionrelative:server\\behaviortree\\decoratefunc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\managers\\monstermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|solutionrelative:server\\managers\\monstermanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\monster\\labo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|solutionrelative:server\\monster\\labo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\util\\utilitylog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|solutionrelative:server\\util\\utilitylog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\managers\\datamanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|solutionrelative:server\\managers\\datamanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\monster\\baseobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|solutionrelative:server\\monster\\baseobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\behaviortree\\blackboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|solutionrelative:server\\behaviortree\\blackboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{192A1348-5B36-474E-BEA7-C6C015148B0C}|Server\\Server.csproj|c:\\users\\ogkim\\desktop\\unityserver\\chessserver\\server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -74,11 +74,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 14,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 9,
               "Title": "Labo.cs",
               "DocumentMoniker": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\Monster\\Labo.cs",
               "RelativeDocumentMoniker": "Server\\Monster\\Labo.cs",
@@ -91,33 +91,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "UtilityLog.cs",
               "DocumentMoniker": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\Util\\UtilityLog.cs",
               "RelativeDocumentMoniker": "Server\\Util\\UtilityLog.cs",
               "ToolTip": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\Util\\UtilityLog.cs",
               "RelativeToolTip": "Server\\Util\\UtilityLog.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAADwvwAAAAAAAAAA",
+              "ViewState": "AQIAABEAAAAAAAAAAAAzwCAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-28T13:27:27.497Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 7,
               "Title": "DecorateFunc.cs",
               "DocumentMoniker": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\BehaviorTree\\DecorateFunc.cs",
               "RelativeDocumentMoniker": "Server\\BehaviorTree\\DecorateFunc.cs",
               "ToolTip": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\BehaviorTree\\DecorateFunc.cs",
               "RelativeToolTip": "Server\\BehaviorTree\\DecorateFunc.cs",
-              "ViewState": "AQIAACMAAAAAAAAAAAAQwAAAAAAAAAAA",
+              "ViewState": "AQIAADgAAAAAAAAAAAAcwAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-28T13:02:08.324Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 5,
               "Title": "ClientSession.cs",
               "DocumentMoniker": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\ClientSession.cs",
               "RelativeDocumentMoniker": "Server\\ClientSession.cs",
@@ -130,7 +130,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 11,
               "Title": "DataManager.cs",
               "DocumentMoniker": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\Managers\\DataManager.cs",
               "RelativeDocumentMoniker": "Server\\Managers\\DataManager.cs",
@@ -143,33 +143,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 3,
               "Title": "Managers.cs",
               "DocumentMoniker": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\Managers\\Managers.cs",
               "RelativeDocumentMoniker": "Server\\Managers\\Managers.cs",
               "ToolTip": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\Managers\\Managers.cs",
               "RelativeToolTip": "Server\\Managers\\Managers.cs",
-              "ViewState": "AQIAAAoAAAAAAAAAAAAxwBIAAAAeAAAA",
+              "ViewState": "AQIAAAEAAAAAAAAAAAA8wBIAAAAeAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-27T07:45:48.007Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 2,
               "Title": "Composite.cs",
               "DocumentMoniker": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\BehaviorTree\\Composite.cs",
               "RelativeDocumentMoniker": "Server\\BehaviorTree\\Composite.cs",
               "ToolTip": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\BehaviorTree\\Composite.cs",
               "RelativeToolTip": "Server\\BehaviorTree\\Composite.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAADwvwAAAAAAAAAA",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAqwBYAAAAiAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-27T07:45:35.409Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 13,
               "Title": "BlackBoard.cs",
               "DocumentMoniker": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\BehaviorTree\\BlackBoard.cs",
               "RelativeDocumentMoniker": "Server\\BehaviorTree\\BlackBoard.cs",
@@ -182,7 +182,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 12,
               "Title": "BaseObject.cs",
               "DocumentMoniker": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\Monster\\BaseObject.cs",
               "RelativeDocumentMoniker": "Server\\Monster\\BaseObject.cs",
@@ -195,13 +195,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "BaseMonster.cs",
               "DocumentMoniker": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\Monster\\BaseMonster.cs",
               "RelativeDocumentMoniker": "Server\\Monster\\BaseMonster.cs",
               "ToolTip": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\Monster\\BaseMonster.cs",
               "RelativeToolTip": "Server\\Monster\\BaseMonster.cs",
-              "ViewState": "AQIAADgAAAAAAAAAAAAkwGoAAAAAAAAA",
+              "ViewState": "AQIAACQAAAAAAAAAAAAQwCoAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-26T13:45:53.022Z",
               "EditorCaption": ""
@@ -214,20 +214,20 @@
               "RelativeDocumentMoniker": "Server\\Managers\\MonsterManager.cs",
               "ToolTip": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\Managers\\MonsterManager.cs",
               "RelativeToolTip": "Server\\Managers\\MonsterManager.cs",
-              "ViewState": "AQIAAAcAAAAAAAAAAAAAwAsAAAAcAAAA",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAxwAsAAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-26T13:45:39.865Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Packet.cs",
               "DocumentMoniker": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\Packet\\Packet.cs",
               "RelativeDocumentMoniker": "Server\\Packet\\Packet.cs",
               "ToolTip": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\Packet\\Packet.cs",
               "RelativeToolTip": "Server\\Packet\\Packet.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAABAAAA",
+              "ViewState": "AQIAADQBAAAAAAAAAAArwFQBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-26T13:45:34.65Z",
               "EditorCaption": ""
@@ -246,26 +246,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 4,
               "Title": "PacketManager.cs",
               "DocumentMoniker": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\Packet\\PacketManager.cs",
               "RelativeDocumentMoniker": "Server\\Packet\\PacketManager.cs",
               "ToolTip": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\Packet\\PacketManager.cs",
               "RelativeToolTip": "Server\\Packet\\PacketManager.cs",
-              "ViewState": "AQIAAB0AAAAAAAAAAAAQwCgAAAAJAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-26T13:43:32.185Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 6,
               "Title": "PacketHandler.cs",
               "DocumentMoniker": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\Packet\\PacketHandler.cs",
               "RelativeDocumentMoniker": "Server\\Packet\\PacketHandler.cs",
               "ToolTip": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\Packet\\PacketHandler.cs",
               "RelativeToolTip": "Server\\Packet\\PacketHandler.cs",
-              "ViewState": "AQIAADQAAAAAAAAAAAAUwFAAAAA3AAAA",
+              "ViewState": "AQIAACkAAAAAAAAAAADwv00AAAALAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-26T13:43:23.071Z",
               "EditorCaption": ""

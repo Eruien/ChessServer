@@ -1,4 +1,6 @@
 using Server;
+using System;
+using System.Net;
 using System.Numerics;
 
 namespace ServerContent
@@ -40,7 +42,22 @@ namespace ServerContent
             if (!IsDeath)
             {
                 currentTime += (float)LTimer.m_SPF;
+
+                if (Target == null)
+                {
+                    if (TargetLabo != null)
+                    {
+                        Target = TargetLabo;
+                        blackBoard.m_TargetObject.Key = Target;
+                    }
+                }
+                blackBoard.m_AttackDistance.Key = (float)ComputeAttackDistance();
                 selector.Tick();
+
+                if (currentTime >= transportPacketTime)
+                {
+                    currentTime = 0.0f;
+                }
             }
         }
 
@@ -114,10 +131,24 @@ namespace ServerContent
             return dis;
         }
 
+        private void TransportPacket(System.Action action)
+        {
+            if (currentTime >= transportPacketTime)
+            {
+                action.Invoke();
+            }
+        }
+
         // TaskNode 모음
         private ReturnCode Attack()
         {
             MonsterState = MonsterState.Attack;
+            S_MonsterStatePacket monsterStatePacket = new S_MonsterStatePacket();
+            monsterStatePacket.monsterId = (ushort)MonsterId;
+            monsterStatePacket.currentState = (ushort)MonsterState;
+
+            TransportPacket(() => Program.g_GameRoom.BroadCast(monsterStatePacket.Write()));
+            
             return ReturnCode.SUCCESS;
         }
 
@@ -143,12 +174,13 @@ namespace ServerContent
             movePacket.PosX = Position.X;
             movePacket.PosY = Position.Y;
             movePacket.PosZ = Position.Z;
-           
-            if (currentTime >= transportPacketTime)
-            {
-                currentTime = 0.0f;
-                Program.g_GameRoom.BroadCast(movePacket.Write());
-            }
+
+            S_MonsterStatePacket monsterStatePacket = new S_MonsterStatePacket();
+            monsterStatePacket.monsterId = (ushort)MonsterId;
+            monsterStatePacket.currentState = (ushort)MonsterState;
+
+            TransportPacket(() => Program.g_GameRoom.BroadCast(monsterStatePacket.Write()));
+            TransportPacket(() => Program.g_GameRoom.BroadCast(movePacket.Write()));
             
             return ReturnCode.SUCCESS;
         }
@@ -158,6 +190,12 @@ namespace ServerContent
             if (blackBoard.m_HP.Key <= 0)
             {
                 MonsterState = MonsterState.Death;
+                S_MonsterStatePacket monsterStatePacket = new S_MonsterStatePacket();
+                monsterStatePacket.monsterId = (ushort)MonsterId;
+                monsterStatePacket.currentState = (ushort)MonsterState;
+
+                Program.g_GameRoom.BroadCast(monsterStatePacket.Write());
+               
                 IsDeath = true;
                 return ReturnCode.SUCCESS;
             }
