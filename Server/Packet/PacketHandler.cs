@@ -63,16 +63,15 @@ namespace Server
         {
             C_MonsterCreatePacket monsterCreatePacket = packet as C_MonsterCreatePacket;
             Labo labo = new Labo();
-            BaseMonster monster = new BaseMonster();
+            BaseMonster monster = new BaseMonster(labo);
             labo.Init();
             monster.Init();
-            monster.SetTarget(labo);
             monster.SetPosition(monsterCreatePacket.PosX, monsterCreatePacket.PosY, monsterCreatePacket.PosZ);
-            monster.monsterId = Managers.Monster.Register(monster);
+            monster.MonsterId = Managers.Monster.Register(monster);
 
             S_BroadcastMonsterCreatePacket broadcastMonsterPacket = new S_BroadcastMonsterCreatePacket();
             broadcastMonsterPacket.monsterTeam = monsterCreatePacket.monsterTeam;
-            broadcastMonsterPacket.monsterId = (ushort)monster.monsterId;
+            broadcastMonsterPacket.monsterId = (ushort)monster.MonsterId;
             broadcastMonsterPacket.PosX = monsterCreatePacket.PosX;
             broadcastMonsterPacket.PosY = monsterCreatePacket.PosY;
             broadcastMonsterPacket.PosZ = monsterCreatePacket.PosZ;

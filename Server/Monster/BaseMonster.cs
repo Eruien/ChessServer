@@ -5,25 +5,47 @@ namespace ServerContent
 {
     public class BaseMonster : BaseObject
     {
-        public BaseObject target;
-        public BaseObject targetLabo;
-        protected MonsterType monsterType = MonsterType.None;
-        public MonsterState monsterState = MonsterState.None;
-        private Selector selector;
-
-        public int monsterId = 0;
-        private float startMovePacketTime = 0.01f;
+        // public, protected, private 순서
+        // 참조타입, 구조체, 일반 타입
+        // 거리 계산이나 이런것을 위하여
+        public BaseObject Target { get; set; }
+        public BaseObject TargetLabo { get; set; }
+        public MonsterType MonsterType { get; set; } = MonsterType.None;
+        public MonsterState MonsterState { get; set; } = MonsterState.None;
+        public int MonsterId { get; set; } = 0;
+ 
+        private Selector selector = new Selector();
+        private float transportPacketTime = 0.01f;
         private float currentTime = 0.0f;
 
+        // 생성자 소멸자
+        public BaseMonster(BaseObject laboratory)
+        {
+            TargetLabo = laboratory;
+            Target = TargetLabo;
+        }
+
+        // 기본 로직 Init, Frame, Render, Release
         public void Init()
         {
             SelfType = ObjectType.Monster;
-            selector = new Selector();
+            SelfTeam = Team.BlueTeam;
+            // Position은 나중에 사용자 입력에 따라 별도 처리
             SetBlackBoardKey();
-            Start();
+            MakeBehaviorTree();
         }
 
-        protected void Start()
+        public void Frame()
+        {
+            if (!IsDeath)
+            {
+                currentTime += (float)LTimer.m_SPF;
+                selector.Tick();
+            }
+        }
+
+        // 생성 로직 Init에 들어가는 초기화 처리 되어야 하는 로직
+        private void MakeBehaviorTree()
         {
             // HP관리
             Selector HPMgr = new Selector();
@@ -59,23 +81,21 @@ namespace ServerContent
             move.AddChild(moveAction);
         }
 
-        public void Frame()
+        // 일반 함수
+        public override void SetPosition(float x, float y, float z)
         {
-            currentTime += (float)LTimer.m_SPF;
-            selector.Tick();
+            Position = new Vector3(x, y, z);
         }
 
-        // 일반 함수
-        public void SetTarget(BaseObject arg)
+        public void SetTarget(BaseObject obj)
         {
-            target = arg;
-            blackBoard.m_TargetObject.Key = target;
+            Target = obj;
+            blackBoard.m_TargetObject.Key = Target;
         }
 
         protected override void SetBlackBoardKey()
         {
-            target = targetLabo;
-            blackBoard.m_TargetObject.Key = target;
+            blackBoard.m_TargetObject.Key = TargetLabo;
             blackBoard.m_HP.Key = Managers.Data.monsterDict[this.GetType().Name].hp;
             blackBoard.m_AttackDistance.Key = Managers.Data.monsterDict[this.GetType().Name].attackDistance;
             blackBoard.m_AttackRange.Key = Managers.Data.monsterDict[this.GetType().Name].attackRange;
@@ -85,33 +105,26 @@ namespace ServerContent
             blackBoard.m_ProjectTileSpeed.Key = Managers.Data.monsterDict[this.GetType().Name].projectTileSpeed;
         }
 
-        public override void SetPosition(float x, float y, float z)
-        {
-            position = new Vector3(x, y, z);
-        }
-
         private double ComputeAttackDistance()
         {
-            if (target == null) return blackBoard.m_AttackDistance.Key;
-            Vector3 vec = target.position - position;
+            if (Target == null) return blackBoard.m_AttackDistance.Key;
+            Vector3 vec = Target.Position - Position;
             double dis = Math.Pow(vec.X * vec.X + vec.Z * vec.Z, 0.5f);
 
             return dis;
         }
 
-       
-
         // TaskNode 모음
         private ReturnCode Attack()
         {
-            monsterState = MonsterState.Attack;
+            MonsterState = MonsterState.Attack;
             return ReturnCode.SUCCESS;
         }
 
         private ReturnCode MoveToPosition()
         {
-            monsterState = MonsterState.Move;
-            Vector3 dir = target.position - position;
+            MonsterState = MonsterState.Move;
+            Vector3 dir = Target.Position - Position;
 
             if (dir == Vector3.Zero)
             {
@@ -122,15 +135,16 @@ namespace ServerContent
                 dir = Vector3.Normalize(dir);
             }
 
-            position += dir * blackBoard.m_MoveSpeed.Key * (float)LTimer.m_SPF;
+            Position += dir * blackBoard.m_MoveSpeed.Key * (float)LTimer.m_SPF;
+
             // 패킷 보내기
             MovePacket movePacket = new MovePacket();
-            movePacket.monsterId = (ushort)monsterId;
-            movePacket.PosX = position.X;
-            movePacket.PosY = position.Y;
-            movePacket.PosZ = position.Z;
+            movePacket.monsterId = (ushort)MonsterId;
+            movePacket.PosX = Position.X;
+            movePacket.PosY = Position.Y;
+            movePacket.PosZ = Position.Z;
            
-            if (currentTime >= startMovePacketTime)
+            if (currentTime >= transportPacketTime)
             {
                 currentTime = 0.0f;
                 Program.g_GameRoom.BroadCast(movePacket.Write());
@@ -143,7 +157,8 @@ namespace ServerContent
         {
             if (blackBoard.m_HP.Key <= 0)
             {
-                monsterState = MonsterState.Death;
+                MonsterState = MonsterState.Death;
+                IsDeath = true;
                 return ReturnCode.SUCCESS;
             }
             else
