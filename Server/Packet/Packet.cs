@@ -17,6 +17,7 @@ namespace Server
         C_MonsterCreate,
         S_BroadcastMonsterCreate,
         S_MonsterState,
+        C_AttackDistance,
     }
 
     public interface IPacket
@@ -375,6 +376,47 @@ namespace Server
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.currentState), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
+
+            return SendBufferHelper.Close(count);
+        }
+    }
+
+    public class C_AttackDistancePacket : PacketHeader, IPacket
+    {
+        public ushort monsterId = 0;
+        public float attackDistance = 0;
+
+        public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 1 + sizeof(float) * 1; } }
+        public ushort PacketID { get { return m_PacketID; } }
+        public C_AttackDistancePacket()
+        {
+            m_PacketSize = PacketSize;
+            m_PacketID = (ushort)PacketType.C_AttackDistance;
+        }
+
+        public void Read(ArraySegment<byte> segment)
+        {
+            int count = 0;
+            count += sizeof(ushort);
+            count += sizeof(ushort);
+            this.monsterId = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            count += sizeof(ushort);
+            this.attackDistance = BitConverter.ToSingle(segment.Array, segment.Offset + count);
+            count += sizeof(float);
+        }
+
+        public ArraySegment<byte> Write()
+        {
+            int count = 0;
+            ArraySegment<byte> segment = SendBufferHelper.Open(4096);
+            Array.Copy(BitConverter.GetBytes(this.m_PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.monsterId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.attackDistance), 0, segment.Array, segment.Offset + count, sizeof(float));
+            count += sizeof(float);
 
             return SendBufferHelper.Close(count);
         }

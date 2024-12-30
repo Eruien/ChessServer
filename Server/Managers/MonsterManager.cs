@@ -17,6 +17,18 @@ public class MonsterManager
        
     }
 
+    public BaseMonster GetMonster(int monsterId)
+    {
+        BaseMonster? monster = null;
+
+        if (MonsterList.TryGetValue(monsterId, out monster))
+        {
+            return monster;
+        }
+
+        return null;
+    }
+
     public void Frame()
     {
         foreach (var monster in MonsterList)

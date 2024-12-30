@@ -17,7 +17,7 @@ namespace ServerContent
         public int MonsterId { get; set; } = 0;
  
         private Selector selector = new Selector();
-        private float transportPacketTime = 0.01f;
+        private float transportPacketTime = 0.1f;
         private float currentTime = 0.0f;
 
         // 생성자 소멸자
@@ -51,7 +51,7 @@ namespace ServerContent
                         blackBoard.m_TargetObject.Key = Target;
                     }
                 }
-                blackBoard.m_AttackDistance.Key = (float)ComputeAttackDistance();
+                //blackBoard.m_AttackDistance.Key = (float)ComputeAttackDistance();
                 selector.Tick();
 
                 if (currentTime >= transportPacketTime)

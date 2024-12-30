@@ -83,5 +83,17 @@ namespace Server
             Room room = clientSession.GameRoom;
             room.BroadCast(broadcastMonsterPacket.Write());
         }
+
+        public void C_AttackDistancePacketHandler(Session session, IPacket packet)
+        {
+            C_AttackDistancePacket attackDistancePacket = packet as C_AttackDistancePacket;
+
+            BaseMonster monster = Managers.Monster.GetMonster(attackDistancePacket.monsterId);
+
+            if (monster != null)
+            {
+                monster.blackBoard.m_AttackDistance.Key = attackDistancePacket.attackDistance;
+            }
+        }
     }
 }

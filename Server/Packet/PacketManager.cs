@@ -38,6 +38,9 @@ namespace Server
 
             m_MakePacketDict.Add((ushort)PacketType.C_MonsterCreate, MakePacket<C_MonsterCreatePacket>);
             m_RunFunctionDict.Add((ushort)PacketType.C_MonsterCreate, PacketHandler.Instance.C_MonsterCreatePacketHandler);
+
+            m_MakePacketDict.Add((ushort)PacketType.C_AttackDistance, MakePacket<C_AttackDistancePacket>);
+            m_RunFunctionDict.Add((ushort)PacketType.C_AttackDistance, PacketHandler.Instance.C_AttackDistancePacketHandler);
         }
 
         public int OnRecvPacket(Session session, ArraySegment<byte> buffer)
