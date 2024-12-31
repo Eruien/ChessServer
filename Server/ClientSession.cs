@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ServerContent;
 using ServerCore;
 
 namespace Server
@@ -15,6 +16,18 @@ namespace Server
         public override void OnConnect()
         {
             Program.g_GameRoom.Enter(this);
+            S_SetInitialDataPacket dataPacket = new S_SetInitialDataPacket();
+
+            if ((SessionId % 2) == 0)
+            {
+                dataPacket.myTeam = (ushort)Team.RedTeam;
+            }
+            else
+            {
+                dataPacket.myTeam = (ushort)Team.BlueTeam;
+            }
+
+            Program.g_GameRoom.Push(() => this.Send(dataPacket.Write()));
         }
 
         public override void OnDisconnect()

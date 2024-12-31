@@ -62,6 +62,10 @@ namespace Server
         public void C_MonsterCreatePacketHandler(Session session, IPacket packet)
         {
             C_MonsterCreatePacket monsterCreatePacket = packet as C_MonsterCreatePacket;
+            ClientSession clientSession = session as ClientSession;
+
+            if (clientSession.GameRoom == null) return;
+
             Labo labo = new Labo();
             BaseMonster monster = new BaseMonster(labo);
             labo.Init();
@@ -70,16 +74,20 @@ namespace Server
             monster.MonsterId = Managers.Monster.Register(monster);
 
             S_BroadcastMonsterCreatePacket broadcastMonsterPacket = new S_BroadcastMonsterCreatePacket();
-            broadcastMonsterPacket.monsterTeam = monsterCreatePacket.monsterTeam;
+            if ((clientSession.SessionId % 2 ) == 0)
+            {
+                broadcastMonsterPacket.monsterTeam = (ushort)Team.RedTeam;
+            }
+            else
+            {
+                broadcastMonsterPacket.monsterTeam = (ushort)Team.BlueTeam;
+            }
+            
             broadcastMonsterPacket.monsterId = (ushort)monster.MonsterId;
             broadcastMonsterPacket.PosX = monsterCreatePacket.PosX;
             broadcastMonsterPacket.PosY = monsterCreatePacket.PosY;
             broadcastMonsterPacket.PosZ = monsterCreatePacket.PosZ;
            
-            ClientSession clientSession = session as ClientSession;
-
-            if (clientSession.GameRoom == null) return;
-
             Room room = clientSession.GameRoom;
             room.BroadCast(broadcastMonsterPacket.Write());
         }

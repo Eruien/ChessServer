@@ -7,6 +7,7 @@ namespace Server
     enum PacketType
     {
         None,
+        S_SetInitialData,
         MonsterPurchasePacket,
         PurchaseAllowedPacket,
         MovePacket,
@@ -32,6 +33,43 @@ namespace Server
     {
         protected ushort m_PacketSize = 0;
         protected ushort m_PacketID = 0;
+    }
+
+    public class S_SetInitialDataPacket : PacketHeader, IPacket
+    {
+        public ushort myTeam = 0;
+
+        public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 1; } }
+        public ushort PacketID { get { return m_PacketID; } }
+
+        public S_SetInitialDataPacket()
+        {
+            m_PacketSize = PacketSize;
+            m_PacketID = (ushort)PacketType.S_SetInitialData;
+        }
+
+        public void Read(ArraySegment<byte> segment)
+        {
+            int count = 0;
+            count += sizeof(ushort);
+            count += sizeof(ushort);
+            this.myTeam = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            count += sizeof(ushort);
+        }
+
+        public ArraySegment<byte> Write()
+        {
+            int count = 0;
+            ArraySegment<byte> segment = SendBufferHelper.Open(4096);
+            Array.Copy(BitConverter.GetBytes(this.m_PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.myTeam), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+
+            return SendBufferHelper.Close(count);
+        }
     }
 
     public class C_MonsterCreatePacket : PacketHeader, IPacket
