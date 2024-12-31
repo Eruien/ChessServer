@@ -17,11 +17,11 @@ public class MonsterManager
        
     }
 
-    public BaseMonster GetMonster(int monsterId)
+    public BaseMonster GetMonster(int objectId)
     {
         BaseMonster? monster = null;
 
-        if (MonsterList.TryGetValue(monsterId, out monster))
+        if (MonsterList.TryGetValue(objectId, out monster))
         {
             return monster;
         }

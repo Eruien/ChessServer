@@ -144,7 +144,7 @@ namespace ServerContent
         {
             MonsterState = MonsterState.Attack;
             S_MonsterStatePacket monsterStatePacket = new S_MonsterStatePacket();
-            monsterStatePacket.monsterId = (ushort)MonsterId;
+            monsterStatePacket.objectId = (ushort)MonsterId;
             monsterStatePacket.currentState = (ushort)MonsterState;
 
             TransportPacket(() => Program.g_GameRoom.BroadCast(monsterStatePacket.Write()));
@@ -170,13 +170,13 @@ namespace ServerContent
 
             // 패킷 보내기
             MovePacket movePacket = new MovePacket();
-            movePacket.monsterId = (ushort)MonsterId;
+            movePacket.objectId = (ushort)MonsterId;
             movePacket.PosX = Position.X;
             movePacket.PosY = Position.Y;
             movePacket.PosZ = Position.Z;
 
             S_MonsterStatePacket monsterStatePacket = new S_MonsterStatePacket();
-            monsterStatePacket.monsterId = (ushort)MonsterId;
+            monsterStatePacket.objectId = (ushort)MonsterId;
             monsterStatePacket.currentState = (ushort)MonsterState;
 
             TransportPacket(() => Program.g_GameRoom.BroadCast(monsterStatePacket.Write()));
@@ -191,7 +191,7 @@ namespace ServerContent
             {
                 MonsterState = MonsterState.Death;
                 S_MonsterStatePacket monsterStatePacket = new S_MonsterStatePacket();
-                monsterStatePacket.monsterId = (ushort)MonsterId;
+                monsterStatePacket.objectId = (ushort)MonsterId;
                 monsterStatePacket.currentState = (ushort)MonsterState;
 
                 Program.g_GameRoom.BroadCast(monsterStatePacket.Write());

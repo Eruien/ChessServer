@@ -83,7 +83,7 @@ namespace Server
                 broadcastMonsterPacket.monsterTeam = (ushort)Team.BlueTeam;
             }
             
-            broadcastMonsterPacket.monsterId = (ushort)monster.MonsterId;
+            broadcastMonsterPacket.objectId = (ushort)monster.MonsterId;
             broadcastMonsterPacket.PosX = monsterCreatePacket.PosX;
             broadcastMonsterPacket.PosY = monsterCreatePacket.PosY;
             broadcastMonsterPacket.PosZ = monsterCreatePacket.PosZ;
@@ -96,12 +96,29 @@ namespace Server
         {
             C_AttackDistancePacket attackDistancePacket = packet as C_AttackDistancePacket;
 
-            BaseMonster monster = Managers.Monster.GetMonster(attackDistancePacket.monsterId);
+            BaseMonster monster = Managers.Monster.GetMonster(attackDistancePacket.objectId);
 
             if (monster != null)
             {
                 monster.blackBoard.m_AttackDistance.Key = attackDistancePacket.attackDistance;
             }
+        }
+
+        public void C_HitPacketHandler(Session session, IPacket packet)
+        {
+            C_HitPacket hitPacket = packet as C_HitPacket;
+            ClientSession clientSession = session as ClientSession;
+
+            if (clientSession.GameRoom == null) return;
+
+            BaseObject monster = Managers.Monster.GetMonster(hitPacket.objectId);
+            BaseObject targetObject =  Managers.Monster.GetMonster(hitPacket.targetMonsterId);
+            targetObject.blackBoard.m_HP.Key -= monster.blackBoard.m_DefaultAttackDamage.Key;
+            S_HitPacket hPacket = new S_HitPacket();
+            hPacket.objectId = hitPacket.targetMonsterId;
+            hPacket.objectHP = (ushort)targetObject.blackBoard.m_HP.Key;
+            Room room = clientSession.GameRoom;
+            room.BroadCast(hPacket.Write());
         }
     }
 }
