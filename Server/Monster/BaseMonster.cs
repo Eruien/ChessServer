@@ -30,14 +30,14 @@ namespace ServerContent
         // 기본 로직 Init, Frame, Render, Release
         public void Init()
         {
-            SelfType = ObjectType.Monster;
+            SelfType = ObjectType.Object;
             SelfTeam = Team.BlueTeam;
             // Position은 나중에 사용자 입력에 따라 별도 처리
             SetBlackBoardKey();
             MakeBehaviorTree();
         }
 
-        public void Frame()
+        public override void Frame()
         {
             if (!IsDeath)
             {

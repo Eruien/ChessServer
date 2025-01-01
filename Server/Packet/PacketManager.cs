@@ -44,6 +44,9 @@ namespace Server
 
             m_MakePacketDict.Add((ushort)PacketType.C_Hit, MakePacket<C_HitPacket>);
             m_RunFunctionDict.Add((ushort)PacketType.C_Hit, PacketHandler.Instance.C_HitPacketHandler);
+
+            m_MakePacketDict.Add((ushort)PacketType.C_ChangeTarget, MakePacket<C_ChangeTargetPacket>);
+            m_RunFunctionDict.Add((ushort)PacketType.C_ChangeTarget, PacketHandler.Instance.C_ChangeTargetPacketHandler);
         }
 
         public int OnRecvPacket(Session session, ArraySegment<byte> buffer)

@@ -13,7 +13,7 @@ namespace ServerContent
             SelfType = ObjectType.Machine;
         }
 
-        public void Frame()
+        public override void Frame()
         {
             IsHPZero();
         }

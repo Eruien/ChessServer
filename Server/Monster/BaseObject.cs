@@ -1,4 +1,5 @@
 using System.Numerics;
+using System.Runtime.Versioning;
 
 namespace ServerContent
 {
@@ -9,7 +10,8 @@ namespace ServerContent
         public Team SelfTeam { get; set; } = Team.None;
         public Vector3 Position { get; set; } = new Vector3(0.0f, 0.0f, 0.0f);
         public bool IsDeath { get; set; } = false;
-        
+
+        public abstract void Frame();
         public abstract void SetPosition(float x, float y, float z);
         protected abstract void SetBlackBoardKey();
     }

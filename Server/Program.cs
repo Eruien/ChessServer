@@ -36,7 +36,7 @@ namespace Server
                 timer.Frame();
                 if (g_IsGameStart)
                 {
-                    Managers.Monster.Frame();
+                    Managers.Object.Frame();
                 }
             
                 JobTimer.Instance.Flush();

@@ -63,26 +63,37 @@ namespace Server
         {
             C_MonsterCreatePacket monsterCreatePacket = packet as C_MonsterCreatePacket;
             ClientSession clientSession = session as ClientSession;
+            BaseObject labo = null;
 
             if (clientSession.GameRoom == null) return;
+            int currentTeam = 0;
 
-            Labo labo = new Labo();
-            BaseMonster monster = new BaseMonster(labo);
-            labo.Init();
-            monster.Init();
-            monster.SetPosition(monsterCreatePacket.PosX, monsterCreatePacket.PosY, monsterCreatePacket.PosZ);
-            monster.MonsterId = Managers.Monster.Register(monster);
-
-            S_BroadcastMonsterCreatePacket broadcastMonsterPacket = new S_BroadcastMonsterCreatePacket();
-            if ((clientSession.SessionId % 2 ) == 0)
+            if ((clientSession.SessionId % 2) == 0)
             {
-                broadcastMonsterPacket.monsterTeam = (ushort)Team.RedTeam;
+                currentTeam = (ushort)Team.RedTeam;
             }
             else
             {
-                broadcastMonsterPacket.monsterTeam = (ushort)Team.BlueTeam;
+                currentTeam = (ushort)Team.BlueTeam;
             }
+           
+            for (int i = 1; i <= 2; i++)
+            {
+                if (Managers.Object.GetObject(i).SelfTeam != (Team)currentTeam)
+                {
+                    labo = Managers.Object.GetObject(i);
+                    break;
+                }
+            }
+           
+            BaseMonster monster = new BaseMonster(labo);
             
+            monster.Init();
+            monster.SetPosition(monsterCreatePacket.PosX, monsterCreatePacket.PosY, monsterCreatePacket.PosZ);
+            monster.MonsterId = Managers.Object.Register(monster);
+
+            S_BroadcastMonsterCreatePacket broadcastMonsterPacket = new S_BroadcastMonsterCreatePacket();
+            broadcastMonsterPacket.monsterTeam = (ushort)currentTeam; 
             broadcastMonsterPacket.objectId = (ushort)monster.MonsterId;
             broadcastMonsterPacket.PosX = monsterCreatePacket.PosX;
             broadcastMonsterPacket.PosY = monsterCreatePacket.PosY;
@@ -96,7 +107,7 @@ namespace Server
         {
             C_AttackDistancePacket attackDistancePacket = packet as C_AttackDistancePacket;
 
-            BaseMonster monster = Managers.Monster.GetMonster(attackDistancePacket.objectId);
+            BaseObject monster = Managers.Object.GetObject(attackDistancePacket.objectId);
 
             if (monster != null)
             {
@@ -111,14 +122,32 @@ namespace Server
 
             if (clientSession.GameRoom == null) return;
 
-            BaseObject monster = Managers.Monster.GetMonster(hitPacket.objectId);
-            BaseObject targetObject =  Managers.Monster.GetMonster(hitPacket.targetMonsterId);
+            BaseObject monster = Managers.Object.GetObject(hitPacket.objectId);
+            BaseObject targetObject =  Managers.Object.GetObject(hitPacket.targetMonsterId);
             targetObject.blackBoard.m_HP.Key -= monster.blackBoard.m_DefaultAttackDamage.Key;
             S_HitPacket hPacket = new S_HitPacket();
             hPacket.objectId = hitPacket.targetMonsterId;
             hPacket.objectHP = (ushort)targetObject.blackBoard.m_HP.Key;
             Room room = clientSession.GameRoom;
             room.BroadCast(hPacket.Write());
+        }
+
+        public void C_ChangeTargetPacketHandler(Session session, IPacket packet)
+        {
+            C_ChangeTargetPacket changeTargetPacket = packet as C_ChangeTargetPacket;
+            ClientSession clientSession = session as ClientSession;
+
+            if (clientSession.GameRoom == null) return;
+
+            BaseObject obj = Managers.Object.GetObject(changeTargetPacket.objectId);
+            BaseObject targetObject = Managers.Object.GetObject(changeTargetPacket.targetObjectId);
+            obj.blackBoard.m_TargetObject.Key = targetObject;
+
+            S_ChangeTargetPacket ServerChangeTarget = new S_ChangeTargetPacket();
+            ServerChangeTarget.objectId = changeTargetPacket.objectId;
+            ServerChangeTarget.targetObjectId = changeTargetPacket.targetObjectId;
+            Room room = clientSession.GameRoom;
+            room.BroadCast(ServerChangeTarget.Write());
         }
     }
 }
