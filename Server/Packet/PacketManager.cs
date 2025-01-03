@@ -24,6 +24,9 @@ namespace Server
 
         void Init()
         {
+            m_MakePacketDict.Add((ushort)PacketType.C_SetInitialLabo, MakePacket<C_SetInitialLaboPacket>);
+            m_RunFunctionDict.Add((ushort)PacketType.C_SetInitialLabo, PacketHandler.Instance.C_SetInitialLaboPacketHandler);
+
             m_MakePacketDict.Add((ushort)PacketType.MonsterPurchasePacket, MakePacket<MonsterPurchasePacket>);
             m_RunFunctionDict.Add((ushort)PacketType.MonsterPurchasePacket, PacketHandler.Instance.MonsterPurchasePacketHandler);
 

@@ -8,6 +8,7 @@ namespace Server
     {
         None,
         S_SetInitialData,
+        C_SetInitialLabo,
         S_SetInitialLabo,
         MonsterPurchasePacket,
         PurchaseAllowedPacket,
@@ -43,7 +44,7 @@ namespace Server
     public class S_SetInitialDataPacket : PacketHeader, IPacket
     {
         public ushort myTeam = 0;
-       
+
         public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 1; } }
         public ushort PacketID { get { return m_PacketID; } }
 
@@ -72,14 +73,14 @@ namespace Server
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.myTeam), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
-          
+
             return SendBufferHelper.Close(count);
         }
     }
 
-    public class S_SetInitialLaboPacket : PacketHeader, IPacket
+    public class C_SetInitialLaboPacket : PacketHeader, IPacket
     {
-        public ushort laboId = 0;
+        public ushort laboTeam = 0;
         public float laboPosX = 0.0f;
         public float laboPosY = 0.0f;
         public float laboPosZ = 0.0f;
@@ -87,10 +88,10 @@ namespace Server
         public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 1 + sizeof(float) * 3; } }
         public ushort PacketID { get { return m_PacketID; } }
 
-        public S_SetInitialLaboPacket()
+        public C_SetInitialLaboPacket()
         {
             m_PacketSize = PacketSize;
-            m_PacketID = (ushort)PacketType.S_SetInitialLabo;
+            m_PacketID = (ushort)PacketType.C_SetInitialLabo;
         }
 
         public void Read(ArraySegment<byte> segment)
@@ -98,7 +99,7 @@ namespace Server
             int count = 0;
             count += sizeof(ushort);
             count += sizeof(ushort);
-            this.laboId = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            this.laboTeam = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
             count += sizeof(ushort);
             this.laboPosX = BitConverter.ToSingle(segment.Array, segment.Offset + count);
             count += sizeof(float);
@@ -116,7 +117,7 @@ namespace Server
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
-            Array.Copy(BitConverter.GetBytes(this.laboId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.laboTeam), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.laboPosX), 0, segment.Array, segment.Offset + count, sizeof(float));
             count += sizeof(float);
@@ -124,6 +125,58 @@ namespace Server
             count += sizeof(float);
             Array.Copy(BitConverter.GetBytes(this.laboPosZ), 0, segment.Array, segment.Offset + count, sizeof(float));
             count += sizeof(float);
+
+            return SendBufferHelper.Close(count);
+        }
+    }
+
+    public class S_SetInitialLaboPacket : PacketHeader, IPacket
+    {
+        public ushort laboOneTeam = 0;
+        public ushort laboOneId = 0;
+        public ushort laboTwoTeam = 0;
+        public ushort laboTwoId = 0;
+
+        public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 4; } }
+        public ushort PacketID { get { return m_PacketID; } }
+
+        public S_SetInitialLaboPacket()
+        {
+            m_PacketSize = PacketSize;
+            m_PacketID = (ushort)PacketType.S_SetInitialLabo;
+        }
+
+        public void Read(ArraySegment<byte> segment)
+        {
+            int count = 0;
+            count += sizeof(ushort);
+            count += sizeof(ushort);
+            this.laboOneTeam = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            count += sizeof(ushort);
+            this.laboOneId = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            count += sizeof(ushort);
+            this.laboTwoTeam = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            count += sizeof(ushort);
+            this.laboTwoId = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            count += sizeof(ushort);
+        }
+
+        public ArraySegment<byte> Write()
+        {
+            int count = 0;
+            ArraySegment<byte> segment = SendBufferHelper.Open(4096);
+            Array.Copy(BitConverter.GetBytes(this.m_PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.laboOneTeam), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.laboOneId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.laboTwoTeam), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.laboTwoId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
 
             return SendBufferHelper.Close(count);
         }
