@@ -27,7 +27,6 @@ namespace ServerContent
         protected override void SetBlackBoardKey()
         {
             blackBoard.m_HP.Key = 100.0f;
-            Position = new Vector3(1.33f, 2.904f, -21.87f);
         }
 
         private void IsHPZero()

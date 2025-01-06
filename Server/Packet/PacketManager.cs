@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using ServerCore;
-using static System.Collections.Specialized.BitVector32;
+﻿using ServerCore;
 
 namespace Server
 {
@@ -24,9 +17,6 @@ namespace Server
 
         void Init()
         {
-            m_MakePacketDict.Add((ushort)PacketType.C_SetInitialLabo, MakePacket<C_SetInitialLaboPacket>);
-            m_RunFunctionDict.Add((ushort)PacketType.C_SetInitialLabo, PacketHandler.Instance.C_SetInitialLaboPacketHandler);
-
             m_MakePacketDict.Add((ushort)PacketType.MonsterPurchasePacket, MakePacket<MonsterPurchasePacket>);
             m_RunFunctionDict.Add((ushort)PacketType.MonsterPurchasePacket, PacketHandler.Instance.MonsterPurchasePacketHandler);
 

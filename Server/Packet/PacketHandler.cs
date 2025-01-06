@@ -15,31 +15,6 @@ namespace Server
         static PacketHandler m_PacketHandler = new PacketHandler();
         public static PacketHandler Instance { get { return m_PacketHandler; } }
 
-        public void C_SetInitialLaboPacketHandler(Session session, IPacket packet)
-        {
-            C_SetInitialLaboPacket laboPacket = packet as C_SetInitialLaboPacket;
-            S_SetInitialLaboPacket serverLaboPacket = new S_SetInitialLaboPacket();
-            ClientSession clientSession = session as ClientSession;
-
-            Labo labo = new Labo();
-            labo.Init();
-            labo.SelfTeam = (Team)laboPacket.laboTeam;
-            labo.Position = new Vector3(laboPacket.laboPosX, laboPacket.laboPosY, laboPacket.laboPosZ);
-
-            Managers.Object.Register(labo);
-
-            if (clientSession.SessionId >= 2)
-            {
-                BaseObject objOne = Managers.Object.GetObject(1);
-                serverLaboPacket.laboOneId = 1;
-                serverLaboPacket.laboOneTeam = (ushort)objOne.SelfTeam;
-                BaseObject objTwo = Managers.Object.GetObject(2);
-                serverLaboPacket.laboTwoId = 2;
-                serverLaboPacket.laboTwoTeam = (ushort)objTwo.SelfTeam;
-                Program.g_GameRoom.BroadCast(serverLaboPacket.Write());
-            }
-        }
-
         public void MonsterPurchasePacketHandler(Session session, IPacket packet)
         {
             Console.WriteLine("MonsterPurchasePacketHandler 작동");

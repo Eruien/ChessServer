@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ServerContent;
+﻿using ServerContent;
 using ServerCore;
 
 namespace Server
@@ -20,14 +15,34 @@ namespace Server
          
             if ((SessionId % 2) == 0)
             {
-                dataPacket.myTeam = (ushort)Team.RedTeam;
+                dataPacket.myTeam = (ushort)Team.BlueTeam;
             }
             else
             {
-                dataPacket.myTeam = (ushort)Team.BlueTeam;
+                dataPacket.myTeam = (ushort)Team.RedTeam;
             }
 
+            S_LabListPacket labPacket = new S_LabListPacket();
+
+            labPacket.Add(new S_LabListPacket.Laboratory()
+            {
+                Id = (ushort)Managers.Labo.GetLaboNumber(Managers.Labo.GetTeamLabo("Red")),
+                Team = (ushort)Managers.Labo.GetTeamLabo("Red").SelfTeam,
+                PosX = Managers.Labo.GetTeamLabo("Red").Position.X,
+                PosY = Managers.Labo.GetTeamLabo("Red").Position.Y,
+                PosZ = Managers.Labo.GetTeamLabo("Red").Position.Z,
+            });
+            labPacket.Add(new S_LabListPacket.Laboratory()
+            {
+                Id = (ushort)Managers.Labo.GetLaboNumber(Managers.Labo.GetTeamLabo("Blue")),
+                Team = (ushort)Managers.Labo.GetTeamLabo("Blue").SelfTeam,
+                PosX = Managers.Labo.GetTeamLabo("Blue").Position.X,
+                PosY = Managers.Labo.GetTeamLabo("Blue").Position.Y,
+                PosZ = Managers.Labo.GetTeamLabo("Blue").Position.Z,
+            });
+          
             Program.g_GameRoom.Push(() => this.Send(dataPacket.Write()));
+            Program.g_GameRoom.Push(() => this.Send(labPacket.Write()));
         }
 
         public override void OnDisconnect()

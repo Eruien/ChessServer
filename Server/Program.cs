@@ -1,9 +1,5 @@
 ﻿using ServerCore;
-using System.Net.Sockets;
-using System.Net;
 using ServerContent;
-using System.Reflection;
-using System.Diagnostics;
 
 namespace Server
 {
@@ -17,20 +13,37 @@ namespace Server
             g_GameRoom.Push(() => g_GameRoom.Flush());
             JobTimer.Instance.Push(FlushRoom, 250);
         }
+    
+        static void RegisterRabo()
+        {
+            Labo redTeamLabo = new Labo();
+            Labo blueTeamLabo = new Labo();
+            redTeamLabo.SelfTeam = Team.RedTeam;
+            redTeamLabo.Init();
+            redTeamLabo.SetPosition(0.0f, 2.904f, -22.0f);
+            blueTeamLabo.SelfTeam = Team.BlueTeam;
+            blueTeamLabo.Init();
+            blueTeamLabo.SetPosition(0.0f, 2.904f, 22.0f);
 
-        
+            int redNumber = Managers.Object.Register(redTeamLabo);
+            int blueNumber = Managers.Object.Register(blueTeamLabo);
+            Managers.Labo.Register("Red", redTeamLabo, redNumber);
+            Managers.Labo.Register("Blue", blueTeamLabo, blueNumber);
+        }
+
         static void Main(string[] args)
         {
             LTimer timer = new LTimer();
-            timer.Init();
-            Managers.Init();
             Listener listener = new Listener();
 
+            timer.Init();
+            Managers.Init();
             listener.Init(SessionManager.Instance.Create, 100);
             listener.Start();
 
             JobTimer.Instance.Push(FlushRoom);
-   
+            RegisterRabo();
+
             while (true)
             {
                 timer.Frame();
