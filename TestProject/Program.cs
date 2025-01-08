@@ -1,7 +1,4 @@
 ﻿
-using System.Diagnostics;
-using static Program;
-
 class Program
 {
 
@@ -28,9 +25,8 @@ class Program
 
     static void Main(string[] args)
     {
-       
-       
-       
+        Bee bq = null;
+        HasValue<Bee>(bq);
     }
 }
 

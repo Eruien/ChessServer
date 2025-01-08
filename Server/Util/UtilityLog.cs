@@ -12,7 +12,7 @@ namespace ServerContent
     {
         None,
         Machine,
-        Object,
+        Monster,
     }
 
     public enum MonsterType

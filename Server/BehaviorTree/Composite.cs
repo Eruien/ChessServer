@@ -24,21 +24,6 @@ namespace ServerContent
         }
     }
 
-    class Conditional : ActionNode
-    {
-        Func<ReturnCode> m_Predicate;
-
-        Conditional(Func<ReturnCode> act)
-        {
-            m_Predicate = act;
-        }
-
-        public override ReturnCode Tick()
-        {
-            return m_Predicate.Invoke();
-        }
-    }
-
     class Composite : ActionNode
     {
         // 전체 노드 수

@@ -8,49 +8,38 @@ namespace Server
         static PacketHandler m_PacketHandler = new PacketHandler();
         public static PacketHandler Instance { get { return m_PacketHandler; } }
 
-        public void MonsterPurchasePacketHandler(Session session, IPacket packet)
+        public void C_GameStartPacketHandler(Session session, IPacket packet)
         {
-            Console.WriteLine("MonsterPurchasePacketHandler 작동");
-            MonsterPurchasePacket purchasePacket = packet as MonsterPurchasePacket;
-            PurchaseAllowedPacket purchaseAllowed = new PurchaseAllowedPacket();
+            C_GameStartPacket gameStartPacket = packet as C_GameStartPacket;
 
-            if (purchasePacket.userGameMoney >= purchasePacket.monsterPrice)
+            if (gameStartPacket.m_IsGameStart)
             {
-                purchaseAllowed.IsPurchase = true;
-                purchaseAllowed.PosX = purchasePacket.PosX;
-                purchaseAllowed.PosY = purchasePacket.PosY;
-                purchaseAllowed.PosZ = purchasePacket.PosZ;
+                Program.g_IsGameStart = true;
             }
-            else
-            {
-                purchaseAllowed.IsPurchase = false;
-            }
+        }
 
+        public void C_MonsterPurchasePacketHandler(Session session, IPacket packet)
+        {
+            C_MonsterPurchasePacket purchasePacket = packet as C_MonsterPurchasePacket;
+            S_PurchaseAllowedPacket purchaseAllowedPacket = new S_PurchaseAllowedPacket();
             ClientSession clientSession = session as ClientSession;
 
             if (clientSession.GameRoom == null) return;
 
-            Room room = clientSession.GameRoom;
-            room.Push(() => clientSession.Send(purchaseAllowed.Write()));
-        }
-
-        public void PurchaseAllowedPacketHandler(Session session, IPacket packet)
-        {
-            Console.WriteLine("PurchaseAllowedPacket 작동");
-        }
-
-        public void MovePacketHandler(Session session, IPacket packet)
-        {
-            Console.WriteLine("Move Pacekt Handler 작동");
-        }
-
-        public void GameStartPacketHandler(Session session, IPacket packet)
-        {
-            GameStartPacket purchasePacket = packet as GameStartPacket;
-            if (purchasePacket.IsGameStart)
+            if (purchasePacket.m_UserGameMoney >= purchasePacket.m_MonsterPrice)
             {
-                Program.g_IsGameStart = true;
+                purchaseAllowedPacket.m_IsPurchase = true;
+                purchaseAllowedPacket.m_PosX = purchasePacket.m_PosX;
+                purchaseAllowedPacket.m_PosY = purchasePacket.m_PosY;
+                purchaseAllowedPacket.m_PosZ = purchasePacket.m_PosZ;
             }
+            else
+            {
+                purchaseAllowedPacket.m_IsPurchase = false;
+            }
+
+            Room room = clientSession.GameRoom;
+            room.Push(() => clientSession.Send(purchaseAllowedPacket.Write()));
         }
 
         public void C_MonsterCreatePacketHandler(Session session, IPacket packet)
@@ -73,16 +62,16 @@ namespace Server
             BaseMonster monster = new BaseMonster(Managers.Lab.GetTeamLab(otherTeam));
             
             monster.Init();
-            monster.SetPosition(monsterCreatePacket.PosX, monsterCreatePacket.PosY, monsterCreatePacket.PosZ);
-            monster.MonsterId = Managers.Object.Register(monster);
+            monster.SetPosition(monsterCreatePacket.m_PosX, monsterCreatePacket.m_PosY, monsterCreatePacket.m_PosZ);
+            monster.m_ObjectId = Managers.Object.Register(monster);
            
             S_BroadcastMonsterCreatePacket broadcastMonsterPacket = new S_BroadcastMonsterCreatePacket();
-            broadcastMonsterPacket.monsterTeam = (ushort)clientSession.SessionTeam;
-            broadcastMonsterPacket.targetLabId = (ushort)Managers.Lab.GetLabNumber(monster.TargetLabo);
-            broadcastMonsterPacket.objectId = (ushort)monster.MonsterId;
-            broadcastMonsterPacket.PosX = monsterCreatePacket.PosX;
-            broadcastMonsterPacket.PosY = monsterCreatePacket.PosY;
-            broadcastMonsterPacket.PosZ = monsterCreatePacket.PosZ;
+            broadcastMonsterPacket.m_MonsterTeam = (ushort)clientSession.SessionTeam;
+            broadcastMonsterPacket.m_TargetLabId = (ushort)Managers.Lab.GetLabNumber(monster.m_TargetLab);
+            broadcastMonsterPacket.m_MonsterId = (ushort)monster.m_ObjectId;
+            broadcastMonsterPacket.m_PosX = monsterCreatePacket.m_PosX;
+            broadcastMonsterPacket.m_PosY = monsterCreatePacket.m_PosY;
+            broadcastMonsterPacket.m_PosZ = monsterCreatePacket.m_PosZ;
            
             Room room = clientSession.GameRoom;
             room.BroadCast(broadcastMonsterPacket.Write());
@@ -92,11 +81,11 @@ namespace Server
         {
             C_AttackDistancePacket attackDistancePacket = packet as C_AttackDistancePacket;
 
-            BaseObject monster = Managers.Object.GetObject(attackDistancePacket.objectId);
+            BaseObject monster = Managers.Object.GetObject(attackDistancePacket.m_MonsterId);
 
             if (monster != null)
             {
-                monster.blackBoard.m_AttackDistance.Key = attackDistancePacket.attackDistance;
+                monster.m_BlackBoard.m_AttackDistance.Key = attackDistancePacket.m_AttackDistance;
             }
         }
 
@@ -107,14 +96,15 @@ namespace Server
 
             if (clientSession.GameRoom == null) return;
 
-            BaseObject monster = Managers.Object.GetObject(hitPacket.objectId);
-            BaseObject targetObject =  Managers.Object.GetObject(hitPacket.targetMonsterId);
-            targetObject.blackBoard.m_HP.Key -= monster.blackBoard.m_DefaultAttackDamage.Key;
-            S_HitPacket hPacket = new S_HitPacket();
-            hPacket.objectId = hitPacket.targetMonsterId;
-            hPacket.objectHP = (ushort)targetObject.blackBoard.m_HP.Key;
+            BaseObject monster = Managers.Object.GetObject(hitPacket.m_MonsterId);
+            BaseObject targetObject =  Managers.Object.GetObject(hitPacket.m_TargetObjectId);
+            targetObject.m_BlackBoard.m_HP.Key -= monster.m_BlackBoard.m_DefaultAttackDamage.Key;
+            S_BroadcastHitPacket broadCastHitPacket = new S_BroadcastHitPacket();
+            broadCastHitPacket.m_ObjectId = hitPacket.m_TargetObjectId;
+            broadCastHitPacket.m_ObjectHP = (ushort)targetObject.m_BlackBoard.m_HP.Key;
+
             Room room = clientSession.GameRoom;
-            room.BroadCast(hPacket.Write());
+            room.BroadCast(broadCastHitPacket.Write());
         }
 
         public void C_ChangeTargetPacketHandler(Session session, IPacket packet)
@@ -124,16 +114,17 @@ namespace Server
 
             if (clientSession.GameRoom == null) return;
 
-            BaseObject obj = Managers.Object.GetObject(changeTargetPacket.objectId);
-            BaseObject targetObject = Managers.Object.GetObject(changeTargetPacket.targetObjectId);
-            obj.blackBoard.m_TargetObject.Key = targetObject;
-            BaseMonster mon = obj as BaseMonster;
-            mon.Target = targetObject;
-            S_ChangeTargetPacket ServerChangeTarget = new S_ChangeTargetPacket();
-            ServerChangeTarget.objectId = changeTargetPacket.objectId;
-            ServerChangeTarget.targetObjectId = changeTargetPacket.targetObjectId;
+            BaseObject obj = Managers.Object.GetObject(changeTargetPacket.m_ObjectId);
+            BaseObject targetObject = Managers.Object.GetObject(changeTargetPacket.m_TargetObjectId);
+            obj.m_BlackBoard.m_TargetObject.Key = targetObject;
+            BaseMonster monster = obj as BaseMonster;
+            monster.m_Target = targetObject;
+            S_BroadcastChangeTargetPacket broadcastChangeTarget = new S_BroadcastChangeTargetPacket();
+            broadcastChangeTarget.m_ObjectId = changeTargetPacket.m_ObjectId;
+            broadcastChangeTarget.m_TargetObjectId = changeTargetPacket.m_TargetObjectId;
+
             Room room = clientSession.GameRoom;
-            room.BroadCast(ServerChangeTarget.Write());
+            room.BroadCast(broadcastChangeTarget.Write());
         }
     }
 }

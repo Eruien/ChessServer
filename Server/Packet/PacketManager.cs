@@ -17,29 +17,23 @@ namespace Server
 
         void Init()
         {
-            m_MakePacketDict.Add((ushort)PacketType.MonsterPurchasePacket, MakePacket<MonsterPurchasePacket>);
-            m_RunFunctionDict.Add((ushort)PacketType.MonsterPurchasePacket, PacketHandler.Instance.MonsterPurchasePacketHandler);
+            m_MakePacketDict.Add((ushort)PacketType.C_GameStartPacket, MakePacket<C_GameStartPacket>);
+            m_RunFunctionDict.Add((ushort)PacketType.C_GameStartPacket, PacketHandler.Instance.C_GameStartPacketHandler);
 
-            m_MakePacketDict.Add((ushort)PacketType.PurchaseAllowedPacket, MakePacket<PurchaseAllowedPacket>);
-            m_RunFunctionDict.Add((ushort)PacketType.PurchaseAllowedPacket, PacketHandler.Instance.PurchaseAllowedPacketHandler);
+            m_MakePacketDict.Add((ushort)PacketType.C_MonsterPurchasePacket, MakePacket<C_MonsterPurchasePacket>);
+            m_RunFunctionDict.Add((ushort)PacketType.C_MonsterPurchasePacket, PacketHandler.Instance.C_MonsterPurchasePacketHandler);
 
-            m_MakePacketDict.Add((ushort)PacketType.MovePacket, MakePacket<MovePacket>);
-            m_RunFunctionDict.Add((ushort)PacketType.MovePacket, PacketHandler.Instance.MovePacketHandler);
+            m_MakePacketDict.Add((ushort)PacketType.C_MonsterCreatePacket, MakePacket<C_MonsterCreatePacket>);
+            m_RunFunctionDict.Add((ushort)PacketType.C_MonsterCreatePacket, PacketHandler.Instance.C_MonsterCreatePacketHandler);
 
-            m_MakePacketDict.Add((ushort)PacketType.GameStart, MakePacket<GameStartPacket>);
-            m_RunFunctionDict.Add((ushort)PacketType.GameStart, PacketHandler.Instance.GameStartPacketHandler);
+            m_MakePacketDict.Add((ushort)PacketType.C_AttackDistancePacket, MakePacket<C_AttackDistancePacket>);
+            m_RunFunctionDict.Add((ushort)PacketType.C_AttackDistancePacket, PacketHandler.Instance.C_AttackDistancePacketHandler);
 
-            m_MakePacketDict.Add((ushort)PacketType.C_MonsterCreate, MakePacket<C_MonsterCreatePacket>);
-            m_RunFunctionDict.Add((ushort)PacketType.C_MonsterCreate, PacketHandler.Instance.C_MonsterCreatePacketHandler);
+            m_MakePacketDict.Add((ushort)PacketType.C_HitPacket, MakePacket<C_HitPacket>);
+            m_RunFunctionDict.Add((ushort)PacketType.C_HitPacket, PacketHandler.Instance.C_HitPacketHandler);
 
-            m_MakePacketDict.Add((ushort)PacketType.C_AttackDistance, MakePacket<C_AttackDistancePacket>);
-            m_RunFunctionDict.Add((ushort)PacketType.C_AttackDistance, PacketHandler.Instance.C_AttackDistancePacketHandler);
-
-            m_MakePacketDict.Add((ushort)PacketType.C_Hit, MakePacket<C_HitPacket>);
-            m_RunFunctionDict.Add((ushort)PacketType.C_Hit, PacketHandler.Instance.C_HitPacketHandler);
-
-            m_MakePacketDict.Add((ushort)PacketType.C_ChangeTarget, MakePacket<C_ChangeTargetPacket>);
-            m_RunFunctionDict.Add((ushort)PacketType.C_ChangeTarget, PacketHandler.Instance.C_ChangeTargetPacketHandler);
+            m_MakePacketDict.Add((ushort)PacketType.C_ChangeTargetPacket, MakePacket<C_ChangeTargetPacket>);
+            m_RunFunctionDict.Add((ushort)PacketType.C_ChangeTargetPacket, PacketHandler.Instance.C_ChangeTargetPacketHandler);
         }
 
         public int OnRecvPacket(Session session, ArraySegment<byte> buffer)

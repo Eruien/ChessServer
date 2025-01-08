@@ -2,7 +2,7 @@ using System.Numerics;
 
 namespace ServerContent
 {
-    public class Labo : BaseObject
+    public class Lab : BaseObject
     {
         // 생성자 소멸자
       
@@ -10,7 +10,7 @@ namespace ServerContent
         public void Init()
         {
             SetBlackBoardKey();
-            SelfType = ObjectType.Machine;
+            m_SelfType = ObjectType.Machine;
         }
 
         public override void Frame()
@@ -21,19 +21,19 @@ namespace ServerContent
         // 일반 함수
         public override void SetPosition(float x, float y, float z)
         {
-            Position = new Vector3(x, y, z);
+            m_Position = new Vector3(x, y, z);
         }
 
         protected override void SetBlackBoardKey()
         {
-            blackBoard.m_HP.Key = 100.0f;
+            m_BlackBoard.m_HP.Key = 100.0f;
         }
 
         private void IsHPZero()
         {
-            if (blackBoard.m_HP.Key <= 0)
+            if (m_BlackBoard.m_HP.Key <= 0)
             {
-                
+                //게임 종료되는 로직 넣기
             }
         }
     }

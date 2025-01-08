@@ -2,28 +2,35 @@
 
 public class LabManager
 {
-    public int LabCount { get; set; } 
+    public int m_LabCount { get; set; } 
 
-    private Dictionary<Team, BaseObject> LabList = new Dictionary<Team, BaseObject>();
-    private Dictionary<BaseObject, int> LabNumberList = new Dictionary<BaseObject, int>();
+    private Dictionary<Team, BaseObject> m_LabDict = new Dictionary<Team, BaseObject>();
+    private Dictionary<BaseObject, int> m_LabNumberDict = new Dictionary<BaseObject, int>();
     
     public void Register(Team key, BaseObject obj, int labNumber)
     {
-        LabList.Add(key, obj);
-        LabNumberList.Add(obj, labNumber);
-        LabCount++;
+        m_LabDict.Add(key, obj);
+        m_LabNumberDict.Add(obj, labNumber);
+        m_LabCount++;
     }
 
     public void UnRegister(BaseObject obj)
     {
+        m_LabDict.Remove(obj.m_SelfTeam);
+        m_LabNumberDict.Remove(obj);
+    }
 
+    public void RemoveAll()
+    {
+        m_LabDict.Clear();
+        m_LabNumberDict.Clear();
     }
 
     public BaseObject GetTeamLab(Team key)
     {
         BaseObject? obj = null;
 
-        if (LabList.TryGetValue(key, out obj))
+        if (m_LabDict.TryGetValue(key, out obj))
         {
             return obj;
         }
@@ -35,7 +42,7 @@ public class LabManager
     {
         int labNumber = 0;
 
-        if (LabNumberList.TryGetValue(obj, out labNumber))
+        if (m_LabNumberDict.TryGetValue(obj, out labNumber))
         {
             return labNumber;
         }

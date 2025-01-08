@@ -16,12 +16,12 @@ namespace Server
     
         static void RegisterRabo()
         {
-            Labo redTeamLab = new Labo();
-            Labo blueTeamLab = new Labo();
-            redTeamLab.SelfTeam = Team.RedTeam;
+            Lab redTeamLab = new Lab();
+            Lab blueTeamLab = new Lab();
+            redTeamLab.m_SelfTeam = Team.RedTeam;
             redTeamLab.Init();
             redTeamLab.SetPosition(0.0f, 2.904f, -22.0f);
-            blueTeamLab.SelfTeam = Team.BlueTeam;
+            blueTeamLab.m_SelfTeam = Team.BlueTeam;
             blueTeamLab.Init();
             blueTeamLab.SetPosition(0.0f, 2.904f, 22.0f);
 

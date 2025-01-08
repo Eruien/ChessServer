@@ -1,15 +1,15 @@
 using System.Numerics;
-using System.Runtime.Versioning;
 
 namespace ServerContent
 {
     abstract public class BaseObject
     {
-        public BlackBoard blackBoard = new BlackBoard();
-        public ObjectType SelfType { get; set; } = ObjectType.None;
-        public Team SelfTeam { get; set; } = Team.None;
-        public Vector3 Position { get; set; } = new Vector3(0.0f, 0.0f, 0.0f);
-        public bool IsDeath { get; set; } = false;
+        public BlackBoard m_BlackBoard = new BlackBoard();
+        public int m_ObjectId { get; set; } = 0;
+        public ObjectType m_SelfType { get; set; } = ObjectType.None;
+        public Team m_SelfTeam { get; set; } = Team.None;
+        public Vector3 m_Position { get; set; } = new Vector3(0.0f, 0.0f, 0.0f);
+        public bool m_IsDeath { get; set; } = false;
 
         public abstract void Frame();
         public abstract void SetPosition(float x, float y, float z);
