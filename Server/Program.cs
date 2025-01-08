@@ -16,19 +16,19 @@ namespace Server
     
         static void RegisterRabo()
         {
-            Labo redTeamLabo = new Labo();
-            Labo blueTeamLabo = new Labo();
-            redTeamLabo.SelfTeam = Team.RedTeam;
-            redTeamLabo.Init();
-            redTeamLabo.SetPosition(0.0f, 2.904f, -22.0f);
-            blueTeamLabo.SelfTeam = Team.BlueTeam;
-            blueTeamLabo.Init();
-            blueTeamLabo.SetPosition(0.0f, 2.904f, 22.0f);
+            Labo redTeamLab = new Labo();
+            Labo blueTeamLab = new Labo();
+            redTeamLab.SelfTeam = Team.RedTeam;
+            redTeamLab.Init();
+            redTeamLab.SetPosition(0.0f, 2.904f, -22.0f);
+            blueTeamLab.SelfTeam = Team.BlueTeam;
+            blueTeamLab.Init();
+            blueTeamLab.SetPosition(0.0f, 2.904f, 22.0f);
 
-            int redNumber = Managers.Object.Register(redTeamLabo);
-            int blueNumber = Managers.Object.Register(blueTeamLabo);
-            Managers.Labo.Register("Red", redTeamLabo, redNumber);
-            Managers.Labo.Register("Blue", blueTeamLabo, blueNumber);
+            int redNumber = Managers.Object.Register(redTeamLab);
+            int blueNumber = Managers.Object.Register(blueTeamLab);
+            Managers.Lab.Register(Team.RedTeam, redTeamLab, redNumber);
+            Managers.Lab.Register(Team.BlueTeam, blueTeamLab, blueNumber);
         }
 
         static void Main(string[] args)

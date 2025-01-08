@@ -6,6 +6,7 @@ namespace Server
     public class ClientSession : PacketSession
     {
         public ushort SessionId { get; set; }
+        public Team SessionTeam { get; set; }
         public Room GameRoom { get; set; }
 
         public override void OnConnect()
@@ -15,30 +16,32 @@ namespace Server
          
             if ((SessionId % 2) == 0)
             {
-                dataPacket.myTeam = (ushort)Team.BlueTeam;
+                this.SessionTeam = Team.BlueTeam;
+                dataPacket.myTeam = (ushort)this.SessionTeam;
             }
             else
             {
-                dataPacket.myTeam = (ushort)Team.RedTeam;
+                this.SessionTeam = Team.RedTeam;
+                dataPacket.myTeam = (ushort)this.SessionTeam;
             }
 
             S_LabListPacket labPacket = new S_LabListPacket();
 
             labPacket.Add(new S_LabListPacket.Laboratory()
             {
-                Id = (ushort)Managers.Labo.GetLaboNumber(Managers.Labo.GetTeamLabo("Red")),
-                Team = (ushort)Managers.Labo.GetTeamLabo("Red").SelfTeam,
-                PosX = Managers.Labo.GetTeamLabo("Red").Position.X,
-                PosY = Managers.Labo.GetTeamLabo("Red").Position.Y,
-                PosZ = Managers.Labo.GetTeamLabo("Red").Position.Z,
+                Id = (ushort)Managers.Lab.GetLabNumber(Managers.Lab.GetTeamLab(Team.RedTeam)),
+                Team = (ushort)Managers.Lab.GetTeamLab(Team.RedTeam).SelfTeam,
+                PosX = Managers.Lab.GetTeamLab(Team.RedTeam).Position.X,
+                PosY = Managers.Lab.GetTeamLab(Team.RedTeam).Position.Y,
+                PosZ = Managers.Lab.GetTeamLab(Team.RedTeam).Position.Z,
             });
             labPacket.Add(new S_LabListPacket.Laboratory()
             {
-                Id = (ushort)Managers.Labo.GetLaboNumber(Managers.Labo.GetTeamLabo("Blue")),
-                Team = (ushort)Managers.Labo.GetTeamLabo("Blue").SelfTeam,
-                PosX = Managers.Labo.GetTeamLabo("Blue").Position.X,
-                PosY = Managers.Labo.GetTeamLabo("Blue").Position.Y,
-                PosZ = Managers.Labo.GetTeamLabo("Blue").Position.Z,
+                Id = (ushort)Managers.Lab.GetLabNumber(Managers.Lab.GetTeamLab(Team.BlueTeam)),
+                Team = (ushort)Managers.Lab.GetTeamLab(Team.BlueTeam).SelfTeam,
+                PosX = Managers.Lab.GetTeamLab(Team.BlueTeam).Position.X,
+                PosY = Managers.Lab.GetTeamLab(Team.BlueTeam).Position.Y,
+                PosZ = Managers.Lab.GetTeamLab(Team.BlueTeam).Position.Z,
             });
           
             Program.g_GameRoom.Push(() => this.Send(dataPacket.Write()));

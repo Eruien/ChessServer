@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using ServerContent;
+﻿using ServerContent;
 using ServerCore;
 
 namespace Server
@@ -64,37 +57,28 @@ namespace Server
         {
             C_MonsterCreatePacket monsterCreatePacket = packet as C_MonsterCreatePacket;
             ClientSession clientSession = session as ClientSession;
-            BaseObject labo = null;
-
+            Team otherTeam = Team.None;
+            
             if (clientSession.GameRoom == null) return;
-            int currentTeam = 0;
 
-            if ((clientSession.SessionId % 2) == 0)
+            if (clientSession.SessionTeam == Team.RedTeam)
             {
-                currentTeam = (ushort)Team.RedTeam;
+                otherTeam = Team.BlueTeam;
             }
-            else
+            else if (clientSession.SessionTeam == Team.BlueTeam)
             {
-                currentTeam = (ushort)Team.BlueTeam;
-            }
-           
-            for (int i = 1; i <= 2; i++)
-            {
-                if (Managers.Object.GetObject(i).SelfTeam != (Team)currentTeam)
-                {
-                    labo = Managers.Object.GetObject(i);
-                    break;
-                }
+                otherTeam = Team.RedTeam;
             }
            
-            BaseMonster monster = new BaseMonster(labo);
+            BaseMonster monster = new BaseMonster(Managers.Lab.GetTeamLab(otherTeam));
             
             monster.Init();
             monster.SetPosition(monsterCreatePacket.PosX, monsterCreatePacket.PosY, monsterCreatePacket.PosZ);
             monster.MonsterId = Managers.Object.Register(monster);
-
+           
             S_BroadcastMonsterCreatePacket broadcastMonsterPacket = new S_BroadcastMonsterCreatePacket();
-            broadcastMonsterPacket.monsterTeam = (ushort)currentTeam; 
+            broadcastMonsterPacket.monsterTeam = (ushort)clientSession.SessionTeam;
+            broadcastMonsterPacket.targetLabId = (ushort)Managers.Lab.GetLabNumber(monster.TargetLabo);
             broadcastMonsterPacket.objectId = (ushort)monster.MonsterId;
             broadcastMonsterPacket.PosX = monsterCreatePacket.PosX;
             broadcastMonsterPacket.PosY = monsterCreatePacket.PosY;
