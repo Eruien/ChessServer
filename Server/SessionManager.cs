@@ -17,7 +17,7 @@ namespace Server
             {
                 ++m_SessionId;
                 ClientSession session = new ClientSession();
-                session.SessionId = (ushort)m_SessionId;
+                session.m_SessionId = (ushort)m_SessionId;
                 m_SessionList.Add(session);
                 return session;
             }

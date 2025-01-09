@@ -24,7 +24,7 @@ namespace Server
             S_PurchaseAllowedPacket purchaseAllowedPacket = new S_PurchaseAllowedPacket();
             ClientSession clientSession = session as ClientSession;
 
-            if (clientSession.GameRoom == null) return;
+            if (clientSession.m_GameRoom == null) return;
 
             if (purchasePacket.m_UserGameMoney >= purchasePacket.m_MonsterPrice)
             {
@@ -38,7 +38,7 @@ namespace Server
                 purchaseAllowedPacket.m_IsPurchase = false;
             }
 
-            Room room = clientSession.GameRoom;
+            Room room = clientSession.m_GameRoom;
             room.Push(() => clientSession.Send(purchaseAllowedPacket.Write()));
         }
 
@@ -48,13 +48,13 @@ namespace Server
             ClientSession clientSession = session as ClientSession;
             Team otherTeam = Team.None;
             
-            if (clientSession.GameRoom == null) return;
+            if (clientSession.m_GameRoom == null) return;
 
-            if (clientSession.SessionTeam == Team.RedTeam)
+            if (clientSession.m_SessionTeam == Team.RedTeam)
             {
                 otherTeam = Team.BlueTeam;
             }
-            else if (clientSession.SessionTeam == Team.BlueTeam)
+            else if (clientSession.m_SessionTeam == Team.BlueTeam)
             {
                 otherTeam = Team.RedTeam;
             }
@@ -66,14 +66,14 @@ namespace Server
             monster.m_ObjectId = Managers.Object.Register(monster);
            
             S_BroadcastMonsterCreatePacket broadcastMonsterPacket = new S_BroadcastMonsterCreatePacket();
-            broadcastMonsterPacket.m_MonsterTeam = (ushort)clientSession.SessionTeam;
+            broadcastMonsterPacket.m_MonsterTeam = (ushort)clientSession.m_SessionTeam;
             broadcastMonsterPacket.m_TargetLabId = (ushort)Managers.Lab.GetLabNumber(monster.m_TargetLab);
             broadcastMonsterPacket.m_MonsterId = (ushort)monster.m_ObjectId;
             broadcastMonsterPacket.m_PosX = monsterCreatePacket.m_PosX;
             broadcastMonsterPacket.m_PosY = monsterCreatePacket.m_PosY;
             broadcastMonsterPacket.m_PosZ = monsterCreatePacket.m_PosZ;
            
-            Room room = clientSession.GameRoom;
+            Room room = clientSession.m_GameRoom;
             room.BroadCast(broadcastMonsterPacket.Write());
         }
 
@@ -94,7 +94,7 @@ namespace Server
             C_HitPacket hitPacket = packet as C_HitPacket;
             ClientSession clientSession = session as ClientSession;
 
-            if (clientSession.GameRoom == null) return;
+            if (clientSession.m_GameRoom == null) return;
 
             BaseObject monster = Managers.Object.GetObject(hitPacket.m_MonsterId);
             BaseObject targetObject =  Managers.Object.GetObject(hitPacket.m_TargetObjectId);
@@ -103,7 +103,7 @@ namespace Server
             broadCastHitPacket.m_ObjectId = hitPacket.m_TargetObjectId;
             broadCastHitPacket.m_ObjectHP = (ushort)targetObject.m_BlackBoard.m_HP.Key;
 
-            Room room = clientSession.GameRoom;
+            Room room = clientSession.m_GameRoom;
             room.BroadCast(broadCastHitPacket.Write());
         }
 
@@ -112,7 +112,7 @@ namespace Server
             C_ChangeTargetPacket changeTargetPacket = packet as C_ChangeTargetPacket;
             ClientSession clientSession = session as ClientSession;
 
-            if (clientSession.GameRoom == null) return;
+            if (clientSession.m_GameRoom == null) return;
 
             BaseObject obj = Managers.Object.GetObject(changeTargetPacket.m_ObjectId);
             BaseObject targetObject = Managers.Object.GetObject(changeTargetPacket.m_TargetObjectId);
@@ -123,7 +123,7 @@ namespace Server
             broadcastChangeTarget.m_ObjectId = changeTargetPacket.m_ObjectId;
             broadcastChangeTarget.m_TargetObjectId = changeTargetPacket.m_TargetObjectId;
 
-            Room room = clientSession.GameRoom;
+            Room room = clientSession.m_GameRoom;
             room.BroadCast(broadcastChangeTarget.Write());
         }
     }

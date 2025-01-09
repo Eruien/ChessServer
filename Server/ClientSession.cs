@@ -5,24 +5,24 @@ namespace Server
 {
     public class ClientSession : PacketSession
     {
-        public ushort SessionId { get; set; }
-        public Team SessionTeam { get; set; }
-        public Room GameRoom { get; set; }
+        public ushort m_SessionId { get; set; }
+        public Team m_SessionTeam { get; set; }
+        public Room m_GameRoom { get; set; }
 
         public override void OnConnect()
         {
             Program.g_GameRoom.Enter(this);
             S_SetInitialDataPacket dataPacket = new S_SetInitialDataPacket();
          
-            if ((SessionId % 2) == 0)
+            if ((m_SessionId % 2) == 0)
             {
-                this.SessionTeam = Team.BlueTeam;
-                dataPacket.m_MyTeam = (ushort)this.SessionTeam;
+                this.m_SessionTeam = Team.BlueTeam;
+                dataPacket.m_MyTeam = (ushort)this.m_SessionTeam;
             }
             else
             {
-                this.SessionTeam = Team.RedTeam;
-                dataPacket.m_MyTeam = (ushort)this.SessionTeam;
+                this.m_SessionTeam = Team.RedTeam;
+                dataPacket.m_MyTeam = (ushort)this.m_SessionTeam;
             }
 
             S_LabListPacket labPacket = new S_LabListPacket();
