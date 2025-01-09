@@ -102,13 +102,13 @@ namespace ServerContent
         {
             // 클라에서 이름 정보 받아오면 이름 정보로 교체
             m_BlackBoard.m_TargetObject.Key = m_TargetLab;
-            m_BlackBoard.m_HP.Key = Managers.Data.m_MonsterDict[this.GetType().Name].m_HP;
-            m_BlackBoard.m_AttackDistance.Key = Managers.Data.m_MonsterDict[this.GetType().Name].m_AttackDistance;
-            m_BlackBoard.m_AttackRange.Key = Managers.Data.m_MonsterDict[this.GetType().Name].m_AttackRange;
-            m_BlackBoard.m_AttackRangeCorrectionValue.Key = Managers.Data.m_MonsterDict[this.GetType().Name].m_AttackRangeCorrectionValue;
-            m_BlackBoard.m_DefaultAttackDamage.Key = Managers.Data.m_MonsterDict[this.GetType().Name].m_DefaultAttackDamage;
-            m_BlackBoard.m_MoveSpeed.Key = Managers.Data.m_MonsterDict[this.GetType().Name].m_MoveSpeed;
-            m_BlackBoard.m_ProjectTileSpeed.Key = Managers.Data.m_MonsterDict[this.GetType().Name].m_ProjectTileSpeed;
+            m_BlackBoard.m_HP.Key = Managers.Data.m_MonsterDict[this.GetType().Name].hp;
+            m_BlackBoard.m_AttackDistance.Key = Managers.Data.m_MonsterDict[this.GetType().Name].attackDistance;
+            m_BlackBoard.m_AttackRange.Key = Managers.Data.m_MonsterDict[this.GetType().Name].attackRange;
+            m_BlackBoard.m_AttackRangeCorrectionValue.Key = Managers.Data.m_MonsterDict[this.GetType().Name].attackRangeCorrectionValue;
+            m_BlackBoard.m_DefaultAttackDamage.Key = Managers.Data.m_MonsterDict[this.GetType().Name].defaultAttackDamage;
+            m_BlackBoard.m_MoveSpeed.Key = Managers.Data.m_MonsterDict[this.GetType().Name].moveSpeed;
+            m_BlackBoard.m_ProjectTileSpeed.Key = Managers.Data.m_MonsterDict[this.GetType().Name].projectTileSpeed;
         }
 
         private double ComputeAttackDistance()

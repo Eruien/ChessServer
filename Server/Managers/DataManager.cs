@@ -9,28 +9,28 @@ public interface IDict<Key, Value>
 [Serializable]
 public class MonsterStat
 {
-    public string m_Name;
-    public MonsterType m_MonsterType;
-    public float m_HP;
-    public float m_AttackRange;
-    public float m_AttackRangeCorrectionValue;
-    public float m_AttackDistance;
-    public float m_DefaultAttackDamage;
-    public float m_MoveSpeed;
-    public float m_ProjectTileSpeed;
+    public string name;
+    public MonsterType monsterType;
+    public float hp;
+    public float attackRange;
+    public float attackRangeCorrectionValue;
+    public float attackDistance;
+    public float defaultAttackDamage;
+    public float moveSpeed;
+    public float projectTileSpeed;
 }
 
 [Serializable]
 public class MonsterData : IDict<string, MonsterStat>
 {
-    public List<MonsterStat> m_MonsterStat = new List<MonsterStat>();
+    public List<MonsterStat> monsterStat = new List<MonsterStat>();
 
     public Dictionary<string, MonsterStat> MakeDict()
     {
         Dictionary<string, MonsterStat> dict = new Dictionary<string, MonsterStat>();
-        foreach (MonsterStat stat in m_MonsterStat)
+        foreach (MonsterStat stat in monsterStat)
         {
-            dict.Add(stat.m_Name, stat);
+            dict.Add(stat.name, stat);
         }
         return dict;
     }
