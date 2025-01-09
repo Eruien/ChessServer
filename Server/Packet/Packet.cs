@@ -334,13 +334,11 @@ namespace Server
 
     public class C_MonsterCreatePacket : PacketHeader, IPacket
     {
-        public ushort m_MonsterTeam = 0;
-        public ushort m_TargetLabId = 0;
         public float m_PosX = 0;
         public float m_PosY = 0;
         public float m_PosZ = 0;
 
-        public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 2 + sizeof(float) * 3; } }
+        public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(float) * 3; } }
         public ushort PacketID { get { return m_PacketID; } }
 
         public C_MonsterCreatePacket()
@@ -353,10 +351,6 @@ namespace Server
         {
             int count = 0;
             count += sizeof(ushort);
-            count += sizeof(ushort);
-            this.m_MonsterTeam = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
-            count += sizeof(ushort);
-            this.m_TargetLabId = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
             count += sizeof(ushort);
             this.m_PosX = BitConverter.ToSingle(segment.Array, segment.Offset + count);
             count += sizeof(float);
@@ -373,10 +367,6 @@ namespace Server
             Array.Copy(BitConverter.GetBytes(this.m_PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
-            count += sizeof(ushort);
-            Array.Copy(BitConverter.GetBytes(this.m_MonsterTeam), 0, segment.Array, segment.Offset + count, sizeof(ushort));
-            count += sizeof(ushort);
-            Array.Copy(BitConverter.GetBytes(this.m_TargetLabId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.m_PosX), 0, segment.Array, segment.Offset + count, sizeof(float));
             count += sizeof(float);
