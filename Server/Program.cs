@@ -14,7 +14,7 @@ namespace Server
             JobTimer.Instance.Push(FlushRoom, 250);
         }
     
-        static void RegisterRabo()
+        static void RegisterRab()
         {
             Lab redTeamLab = new Lab();
             Lab blueTeamLab = new Lab();
@@ -42,7 +42,7 @@ namespace Server
             listener.Start();
 
             JobTimer.Instance.Push(FlushRoom);
-            RegisterRabo();
+            RegisterRab();
 
             while (true)
             {

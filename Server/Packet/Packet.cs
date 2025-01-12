@@ -1,6 +1,7 @@
 ﻿using ServerCore;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Server
 {
@@ -32,24 +33,12 @@ namespace Server
         ArraySegment<byte> Write();
     }
 
-    public class PacketHeader
-    {
-        protected ushort m_PacketSize = 0;
-        protected ushort m_PacketID = 0;
-    }
-
-    public class C_GameStartPacket : PacketHeader, IPacket
+    public class C_GameStartPacket : IPacket
     {
         public bool m_IsGameStart = false;
 
         public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(bool) * 1; } }
-        public ushort PacketID { get { return m_PacketID; } }
-
-        public C_GameStartPacket()
-        {
-            m_PacketSize = PacketSize;
-            m_PacketID = (ushort)PacketType.C_GameStartPacket;
-        }
+        public ushort PacketID { get { return (ushort)PacketType.C_GameStartPacket; } }
 
         public void Read(ArraySegment<byte> segment)
         {
@@ -64,9 +53,9 @@ namespace Server
         {
             int count = 0;
             ArraySegment<byte> segment = SendBufferHelper.Open(4096);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.m_IsGameStart), 0, segment.Array, segment.Offset + count, sizeof(bool));
             count += sizeof(bool);
@@ -75,18 +64,12 @@ namespace Server
         }
     }
 
-    public class S_SetInitialDataPacket : PacketHeader, IPacket
+    public class S_SetInitialDataPacket : IPacket
     {
         public ushort m_MyTeam = 0;
 
         public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 1; } }
-        public ushort PacketID { get { return m_PacketID; } }
-
-        public S_SetInitialDataPacket()
-        {
-            m_PacketSize = PacketSize;
-            m_PacketID = (ushort)PacketType.S_SetInitialDataPacket;
-        }
+        public ushort PacketID { get { return (ushort)PacketType.S_SetInitialDataPacket; } }
 
         public void Read(ArraySegment<byte> segment)
         {
@@ -101,9 +84,9 @@ namespace Server
         {
             int count = 0;
             ArraySegment<byte> segment = SendBufferHelper.Open(4096);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.m_MyTeam), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
@@ -112,7 +95,7 @@ namespace Server
         }
     }
 
-    public class S_LabListPacket : PacketHeader, IPacket
+    public class S_LabListPacket : IPacket
     {
         ushort m_LabCount = 0;
         public List<LaboratoryPacket> m_LabList = new List<LaboratoryPacket>();
@@ -124,12 +107,7 @@ namespace Server
                 return (ushort)(sizeof(ushort) * 2 + sizeof(ushort) + m_LabList.Count * LaboratoryPacket.PacketSize);
             }
         }
-        public ushort PacketID { get { return m_PacketID; } }
-
-        public S_LabListPacket()
-        {
-            m_PacketID = (ushort)PacketType.S_LabListPacket;
-        }
+        public ushort PacketID { get { return (ushort)PacketType.S_LabListPacket; } }
 
         public void Add(LaboratoryPacket lab)
         {
@@ -159,7 +137,7 @@ namespace Server
 
             Array.Copy(BitConverter.GetBytes(PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(m_LabList.Count), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
@@ -172,7 +150,7 @@ namespace Server
             return SendBufferHelper.Close(count);
         }
 
-        public class LaboratoryPacket : PacketHeader
+        public class LaboratoryPacket
         {
             public ushort m_LabId = 0;
             public ushort m_Team = 0;
@@ -180,12 +158,8 @@ namespace Server
             public float m_PosY = 0;
             public float m_PosZ = 0;
 
-            static public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 2 + sizeof(float) * 3; } }
-            public LaboratoryPacket()
-            {
-                m_PacketSize = PacketSize;
-                m_PacketID = (ushort)PacketType.LaboratoryPacket;
-            }
+            public static ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 2 + sizeof(float) * 3; } }
+            public ushort PacketID { get { return (ushort)PacketType.LaboratoryPacket; } }
 
             public void Read(ArraySegment<byte> segment, ref int count)
             {
@@ -205,9 +179,9 @@ namespace Server
 
             public void Write(ArraySegment<byte> segment, ref int count)
             {
-                Array.Copy(BitConverter.GetBytes(this.m_PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+                Array.Copy(BitConverter.GetBytes(LaboratoryPacket.PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
                 count += sizeof(ushort);
-                Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+                Array.Copy(BitConverter.GetBytes(this.PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
                 count += sizeof(ushort);
                 Array.Copy(BitConverter.GetBytes(this.m_LabId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
                 count += sizeof(ushort);
@@ -223,28 +197,28 @@ namespace Server
         }
     }
 
-    public class C_MonsterPurchasePacket : PacketHeader, IPacket
+    public class C_MonsterPurchasePacket : IPacket
     {
+        public ushort m_StringSize = 0;
+        public string m_MonsterType = "";
         public int m_UserGameMoney = 0;
         public int m_MonsterPrice = 0;
         public float m_PosX = 0;
         public float m_PosY = 0;
         public float m_PosZ = 0;
 
-        public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(int) * 2 + sizeof(float) * 3; } }
-        public ushort PacketID { get { return m_PacketID; } }
-
-        public C_MonsterPurchasePacket()
-        {
-            m_PacketSize = PacketSize;
-            m_PacketID = (ushort)PacketType.C_MonsterPurchasePacket;
-        }
+        public ushort PacketSize { get { return (ushort)(sizeof(ushort) * 2 + sizeof(ushort) + m_StringSize + sizeof(int) * 2 + sizeof(float) * 3); } }
+        public ushort PacketID { get { return (ushort)PacketType.C_MonsterPurchasePacket; } }
 
         public void Read(ArraySegment<byte> segment)
         {
             int count = 0;
             count += sizeof(ushort);
             count += sizeof(ushort);
+            this.m_StringSize = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            count += sizeof(ushort);
+            this.m_MonsterType = BitConverter.ToString(segment.Array, segment.Offset + count);
+            count += m_StringSize;
             this.m_UserGameMoney = BitConverter.ToInt32(segment.Array, segment.Offset + count);
             count += sizeof(int);
             this.m_MonsterPrice = BitConverter.ToInt32(segment.Array, segment.Offset + count);
@@ -261,10 +235,14 @@ namespace Server
         {
             int count = 0;
             ArraySegment<byte> segment = SendBufferHelper.Open(4096);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(m_StringSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(Encoding.UTF8.GetBytes(m_MonsterType), 0, segment.Array, segment.Offset + count, m_StringSize);
+            count += m_StringSize;
             Array.Copy(BitConverter.GetBytes(this.m_UserGameMoney), 0, segment.Array, segment.Offset + count, sizeof(int));
             count += sizeof(int);
             Array.Copy(BitConverter.GetBytes(this.m_MonsterPrice), 0, segment.Array, segment.Offset + count, sizeof(int));
@@ -280,27 +258,27 @@ namespace Server
         }
     }
 
-    public class S_PurchaseAllowedPacket : PacketHeader, IPacket
+    public class S_PurchaseAllowedPacket : IPacket
     {
+        public ushort m_StringSize = 0;
+        public string m_MonsterType = "";
         public bool m_IsPurchase = false;
         public float m_PosX = 0;
         public float m_PosY = 0;
         public float m_PosZ = 0;
 
-        public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(bool) * 1 + sizeof(float) * 3; } }
-        public ushort PacketID { get { return m_PacketID; } }
-
-        public S_PurchaseAllowedPacket()
-        {
-            m_PacketSize = PacketSize;
-            m_PacketID = (ushort)PacketType.S_PurchaseAllowedPacket;
-        }
+        public ushort PacketSize { get { return (ushort)(sizeof(ushort) * 2 + sizeof(ushort) + m_StringSize + sizeof(bool) * 1 + sizeof(float) * 3); } }
+        public ushort PacketID { get { return (ushort)PacketType.S_PurchaseAllowedPacket; } }
 
         public void Read(ArraySegment<byte> segment)
         {
             int count = 0;
             count += sizeof(ushort);
             count += sizeof(ushort);
+            this.m_StringSize = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            count += sizeof(ushort);
+            this.m_MonsterType = BitConverter.ToString(segment.Array, segment.Offset + count);
+            count += m_StringSize;
             this.m_IsPurchase = BitConverter.ToBoolean(segment.Array, segment.Offset + count);
             count += sizeof(bool);
             this.m_PosX = BitConverter.ToSingle(segment.Array, segment.Offset + count);
@@ -315,10 +293,14 @@ namespace Server
         {
             int count = 0;
             ArraySegment<byte> segment = SendBufferHelper.Open(4096);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(m_StringSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(Encoding.UTF8.GetBytes(m_MonsterType), 0, segment.Array, segment.Offset + count, m_StringSize);
+            count += m_StringSize;
             Array.Copy(BitConverter.GetBytes(this.m_IsPurchase), 0, segment.Array, segment.Offset + count, sizeof(bool));
             count += sizeof(bool);
             Array.Copy(BitConverter.GetBytes(this.m_PosX), 0, segment.Array, segment.Offset + count, sizeof(float));
@@ -332,26 +314,26 @@ namespace Server
         }
     }
 
-    public class C_MonsterCreatePacket : PacketHeader, IPacket
+    public class C_MonsterCreatePacket : IPacket
     {
+        public ushort m_StringSize = 0;
+        public string m_MonsterType = "";
         public float m_PosX = 0;
         public float m_PosY = 0;
         public float m_PosZ = 0;
 
-        public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(float) * 3; } }
-        public ushort PacketID { get { return m_PacketID; } }
-
-        public C_MonsterCreatePacket()
-        {
-            m_PacketSize = PacketSize;
-            m_PacketID = (ushort)PacketType.C_MonsterCreatePacket;
-        }
+        public ushort PacketSize { get { return (ushort)(sizeof(ushort) * 2 + sizeof(ushort) * 1 + m_StringSize + sizeof(float) * 3); } }
+        public ushort PacketID { get { return (ushort)PacketType.C_MonsterCreatePacket; } }
 
         public void Read(ArraySegment<byte> segment)
         {
             int count = 0;
             count += sizeof(ushort);
             count += sizeof(ushort);
+            this.m_StringSize = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            count += sizeof(ushort);
+            this.m_MonsterType = BitConverter.ToString(segment.Array, segment.Offset + count);
+            count += m_StringSize;
             this.m_PosX = BitConverter.ToSingle(segment.Array, segment.Offset + count);
             count += sizeof(float);
             this.m_PosY = BitConverter.ToSingle(segment.Array, segment.Offset + count);
@@ -364,10 +346,14 @@ namespace Server
         {
             int count = 0;
             ArraySegment<byte> segment = SendBufferHelper.Open(4096);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(m_StringSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(Encoding.UTF8.GetBytes(m_MonsterType), 0, segment.Array, segment.Offset + count, m_StringSize);
+            count += m_StringSize;
             Array.Copy(BitConverter.GetBytes(this.m_PosX), 0, segment.Array, segment.Offset + count, sizeof(float));
             count += sizeof(float);
             Array.Copy(BitConverter.GetBytes(this.m_PosY), 0, segment.Array, segment.Offset + count, sizeof(float));
@@ -379,7 +365,7 @@ namespace Server
         }
     }
 
-    public class S_BroadcastMonsterCreatePacket : PacketHeader, IPacket
+    public class S_BroadcastMonsterCreatePacket : IPacket
     {
         public ushort m_MonsterId = 0;
         public ushort m_MonsterTeam = 0;
@@ -389,13 +375,7 @@ namespace Server
         public float m_PosZ = 0;
 
         public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 3 + sizeof(float) * 3; } }
-        public ushort PacketID { get { return m_PacketID; } }
-
-        public S_BroadcastMonsterCreatePacket()
-        {
-            m_PacketSize = PacketSize;
-            m_PacketID = (ushort)PacketType.S_BroadcastMonsterCreatePacket;
-        }
+        public ushort PacketID { get { return (ushort)PacketType.S_BroadcastMonsterCreatePacket; } }
 
         public void Read(ArraySegment<byte> segment)
         {
@@ -420,9 +400,9 @@ namespace Server
         {
             int count = 0;
             ArraySegment<byte> segment = SendBufferHelper.Open(4096);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.m_MonsterId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
@@ -441,18 +421,13 @@ namespace Server
         }
     }
 
-    public class S_BroadcastMonsterStatePacket : PacketHeader, IPacket
+    public class S_BroadcastMonsterStatePacket : IPacket
     {
         public ushort m_MonsterId = 0;
         public ushort m_CurrentState = 0;
 
         public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 2; } }
-        public ushort PacketID { get { return m_PacketID; } }
-        public S_BroadcastMonsterStatePacket()
-        {
-            m_PacketSize = PacketSize;
-            m_PacketID = (ushort)PacketType.S_BroadcastMonsterStatePacket;
-        }
+        public ushort PacketID { get { return (ushort)PacketType.S_BroadcastMonsterStatePacket; } }
 
         public void Read(ArraySegment<byte> segment)
         {
@@ -469,9 +444,9 @@ namespace Server
         {
             int count = 0;
             ArraySegment<byte> segment = SendBufferHelper.Open(4096);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.m_MonsterId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
@@ -482,7 +457,7 @@ namespace Server
         }
     }
 
-    public class S_BroadcastMovePacket : PacketHeader, IPacket
+    public class S_BroadcastMovePacket : IPacket
     {
         public ushort m_MonsterId = 0;
         public float m_PosX = 0;
@@ -490,12 +465,7 @@ namespace Server
         public float m_PosZ = 0;
 
         public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 1 + sizeof(float) * 3; } }
-        public ushort PacketID { get { return m_PacketID; } }
-        public S_BroadcastMovePacket()
-        {
-            m_PacketSize = PacketSize;
-            m_PacketID = (ushort)PacketType.S_BroadcastMovePacket;
-        }
+        public ushort PacketID { get { return (ushort)PacketType.S_BroadcastMovePacket; } }
 
         public void Read(ArraySegment<byte> segment)
         {
@@ -516,9 +486,9 @@ namespace Server
         {
             int count = 0;
             ArraySegment<byte> segment = SendBufferHelper.Open(4096);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.m_MonsterId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
@@ -533,18 +503,13 @@ namespace Server
         }
     }
 
-    public class C_AttackDistancePacket : PacketHeader, IPacket
+    public class C_AttackDistancePacket : IPacket
     {
         public ushort m_MonsterId = 0;
         public float m_AttackDistance = 0;
 
         public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 1 + sizeof(float) * 1; } }
-        public ushort PacketID { get { return m_PacketID; } }
-        public C_AttackDistancePacket()
-        {
-            m_PacketSize = PacketSize;
-            m_PacketID = (ushort)PacketType.C_AttackDistancePacket;
-        }
+        public ushort PacketID { get { return (ushort)PacketType.C_AttackDistancePacket; } }
 
         public void Read(ArraySegment<byte> segment)
         {
@@ -561,9 +526,9 @@ namespace Server
         {
             int count = 0;
             ArraySegment<byte> segment = SendBufferHelper.Open(4096);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.m_MonsterId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
@@ -574,19 +539,14 @@ namespace Server
         }
     }
 
-    public class C_HitPacket : PacketHeader, IPacket
+    public class C_HitPacket : IPacket
     {
         public ushort m_MonsterId = 0;
         public ushort m_TargetObjectId = 0;
         public ushort m_AttackType = 0;
 
         public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 3; } }
-        public ushort PacketID { get { return m_PacketID; } }
-        public C_HitPacket()
-        {
-            m_PacketSize = PacketSize;
-            m_PacketID = (ushort)PacketType.C_HitPacket;
-        }
+        public ushort PacketID { get { return (ushort)PacketType.C_HitPacket; } }
 
         public void Read(ArraySegment<byte> segment)
         {
@@ -605,9 +565,9 @@ namespace Server
         {
             int count = 0;
             ArraySegment<byte> segment = SendBufferHelper.Open(4096);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.m_MonsterId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
@@ -620,18 +580,13 @@ namespace Server
         }
     }
 
-    public class S_BroadcastHitPacket : PacketHeader, IPacket
+    public class S_BroadcastHitPacket : IPacket
     {
         public ushort m_ObjectId = 0;
         public ushort m_ObjectHP = 0;
 
         public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 2; } }
-        public ushort PacketID { get { return m_PacketID; } }
-        public S_BroadcastHitPacket()
-        {
-            m_PacketSize = PacketSize;
-            m_PacketID = (ushort)PacketType.S_BroadcastHitPacket;
-        }
+        public ushort PacketID { get { return (ushort)PacketType.S_BroadcastHitPacket; } }
 
         public void Read(ArraySegment<byte> segment)
         {
@@ -648,9 +603,9 @@ namespace Server
         {
             int count = 0;
             ArraySegment<byte> segment = SendBufferHelper.Open(4096);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.m_ObjectId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
@@ -661,18 +616,13 @@ namespace Server
         }
     }
 
-    public class C_ChangeTargetPacket : PacketHeader, IPacket
+    public class C_ChangeTargetPacket : IPacket
     {
         public ushort m_ObjectId = 0;
         public ushort m_TargetObjectId = 0;
 
         public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 2; } }
-        public ushort PacketID { get { return m_PacketID; } }
-        public C_ChangeTargetPacket()
-        {
-            m_PacketSize = PacketSize;
-            m_PacketID = (ushort)PacketType.C_ChangeTargetPacket;
-        }
+        public ushort PacketID { get { return (ushort)PacketType.C_ChangeTargetPacket; } }
 
         public void Read(ArraySegment<byte> segment)
         {
@@ -689,9 +639,9 @@ namespace Server
         {
             int count = 0;
             ArraySegment<byte> segment = SendBufferHelper.Open(4096);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.m_ObjectId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
@@ -702,18 +652,13 @@ namespace Server
         }
     }
 
-    public class S_BroadcastChangeTargetPacket : PacketHeader, IPacket
+    public class S_BroadcastChangeTargetPacket : IPacket
     {
         public ushort m_ObjectId = 0;
         public ushort m_TargetObjectId = 0;
 
         public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 2; } }
-        public ushort PacketID { get { return m_PacketID; } }
-        public S_BroadcastChangeTargetPacket()
-        {
-            m_PacketSize = PacketSize;
-            m_PacketID = (ushort)PacketType.S_BroadcastChangeTargetPacket;
-        }
+        public ushort PacketID { get { return (ushort)PacketType.S_BroadcastChangeTargetPacket; } }
 
         public void Read(ArraySegment<byte> segment)
         {
@@ -730,9 +675,9 @@ namespace Server
         {
             int count = 0;
             ArraySegment<byte> segment = SendBufferHelper.Open(4096);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
-            Array.Copy(BitConverter.GetBytes(this.m_PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.m_ObjectId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);

@@ -26,6 +26,9 @@ namespace Server
 
             if (clientSession.m_GameRoom == null) return;
 
+            purchaseAllowedPacket.m_StringSize = purchasePacket.m_StringSize;
+            purchaseAllowedPacket.m_MonsterType = purchasePacket.m_MonsterType;
+
             if (purchasePacket.m_UserGameMoney >= purchasePacket.m_MonsterPrice)
             {
                 purchaseAllowedPacket.m_IsPurchase = true;
@@ -60,7 +63,7 @@ namespace Server
             }
            
             BaseMonster monster = new BaseMonster(Managers.Lab.GetTeamLab(otherTeam));
-            
+            monster.m_Name = monsterCreatePacket.m_MonsterType;
             monster.Init();
             monster.SetPosition(monsterCreatePacket.m_PosX, monsterCreatePacket.m_PosY, monsterCreatePacket.m_PosZ);
             monster.m_ObjectId = Managers.Object.Register(monster);
