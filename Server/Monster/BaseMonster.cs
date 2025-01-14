@@ -28,7 +28,6 @@ namespace ServerContent
         public void Init()
         {
             m_SelfType = ObjectType.Monster;
-            m_SelfTeam = Team.BlueTeam;
             // Position은 나중에 사용자 입력에 따라 별도 처리
             SetBlackBoardKey();
             MakeBehaviorTree();
@@ -102,22 +101,13 @@ namespace ServerContent
         {
             // 클라에서 이름 정보 받아오면 이름 정보로 교체
             m_BlackBoard.m_TargetObject.Key = m_TargetLab;
-            m_BlackBoard.m_HP.Key = Managers.Data.m_MonsterDict[this.GetType().Name].hp;
-            m_BlackBoard.m_AttackDistance.Key = Managers.Data.m_MonsterDict[this.GetType().Name].attackDistance;
-            m_BlackBoard.m_AttackRange.Key = Managers.Data.m_MonsterDict[this.GetType().Name].attackRange;
-            m_BlackBoard.m_AttackRangeCorrectionValue.Key = Managers.Data.m_MonsterDict[this.GetType().Name].attackRangeCorrectionValue;
-            m_BlackBoard.m_DefaultAttackDamage.Key = Managers.Data.m_MonsterDict[this.GetType().Name].defaultAttackDamage;
-            m_BlackBoard.m_MoveSpeed.Key = Managers.Data.m_MonsterDict[this.GetType().Name].moveSpeed;
-            m_BlackBoard.m_ProjectTileSpeed.Key = Managers.Data.m_MonsterDict[this.GetType().Name].projectTileSpeed;
-        }
-
-        private double ComputeAttackDistance()
-        {
-            if (m_Target == null) return m_BlackBoard.m_AttackDistance.Key;
-            Vector3 vec = m_Target.m_Position - m_Position;
-            double dis = Math.Pow(vec.X * vec.X + vec.Z * vec.Z, 0.5f);
-
-            return dis;
+            m_BlackBoard.m_HP.Key = Managers.Data.m_MonsterDict[m_Name].hp;
+            m_BlackBoard.m_AttackDistance.Key = Managers.Data.m_MonsterDict[m_Name].attackDistance;
+            m_BlackBoard.m_AttackRange.Key = Managers.Data.m_MonsterDict[m_Name].attackRange;
+            m_BlackBoard.m_AttackRangeCorrectionValue.Key = Managers.Data.m_MonsterDict[m_Name].attackRangeCorrectionValue;
+            m_BlackBoard.m_DefaultAttackDamage.Key = Managers.Data.m_MonsterDict[m_Name].defaultAttackDamage;
+            m_BlackBoard.m_MoveSpeed.Key = Managers.Data.m_MonsterDict[m_Name].moveSpeed;
+            m_BlackBoard.m_ProjectTileSpeed.Key = Managers.Data.m_MonsterDict[m_Name].projectTileSpeed;
         }
 
         private void TransportPacket(System.Action action)

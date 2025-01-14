@@ -67,8 +67,11 @@ namespace Server
             monster.Init();
             monster.SetPosition(monsterCreatePacket.m_PosX, monsterCreatePacket.m_PosY, monsterCreatePacket.m_PosZ);
             monster.m_ObjectId = Managers.Object.Register(monster);
+            monster.m_SelfTeam = clientSession.m_SessionTeam;
            
             S_BroadcastMonsterCreatePacket broadcastMonsterPacket = new S_BroadcastMonsterCreatePacket();
+            broadcastMonsterPacket.m_StringSize = monsterCreatePacket.m_StringSize;
+            broadcastMonsterPacket.m_MonsterType = monsterCreatePacket.m_MonsterType;
             broadcastMonsterPacket.m_MonsterTeam = (ushort)clientSession.m_SessionTeam;
             broadcastMonsterPacket.m_TargetLabId = (ushort)Managers.Lab.GetLabNumber(monster.m_TargetLab);
             broadcastMonsterPacket.m_MonsterId = (ushort)monster.m_ObjectId;
@@ -102,9 +105,15 @@ namespace Server
             BaseObject monster = Managers.Object.GetObject(hitPacket.m_MonsterId);
             BaseObject targetObject =  Managers.Object.GetObject(hitPacket.m_TargetObjectId);
             targetObject.m_BlackBoard.m_HP.Key -= monster.m_BlackBoard.m_DefaultAttackDamage.Key;
+            if (targetObject.m_BlackBoard.m_HP.Key <= 0)
+            {
+                BaseMonster mon = monster as BaseMonster;
+                mon.SetTarget(null);
+            }
             S_BroadcastHitPacket broadCastHitPacket = new S_BroadcastHitPacket();
-            broadCastHitPacket.m_ObjectId = hitPacket.m_TargetObjectId;
-            broadCastHitPacket.m_ObjectHP = (ushort)targetObject.m_BlackBoard.m_HP.Key;
+            broadCastHitPacket.m_ObjectId = (ushort)monster.m_ObjectId;
+            broadCastHitPacket.m_TargetId = hitPacket.m_TargetObjectId;
+            broadCastHitPacket.m_TargetHP = (ushort)targetObject.m_BlackBoard.m_HP.Key;
 
             Room room = clientSession.m_GameRoom;
             room.BroadCast(broadCastHitPacket.Write());

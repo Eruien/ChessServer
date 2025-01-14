@@ -1,6 +1,8 @@
 ﻿using ServerCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Server
@@ -217,7 +219,10 @@ namespace Server
             count += sizeof(ushort);
             this.m_StringSize = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
             count += sizeof(ushort);
-            this.m_MonsterType = BitConverter.ToString(segment.Array, segment.Offset + count);
+            string hexString = BitConverter.ToString(segment.Array, segment.Offset + count, m_StringSize).Replace("-", "");
+            this.m_MonsterType = Encoding.ASCII.GetString(Enumerable.Range(0, hexString.Length / 2)
+                             .Select(i => Convert.ToByte(hexString.Substring(i * 2, 2), 16))
+                             .ToArray());
             count += m_StringSize;
             this.m_UserGameMoney = BitConverter.ToInt32(segment.Array, segment.Offset + count);
             count += sizeof(int);
@@ -277,7 +282,10 @@ namespace Server
             count += sizeof(ushort);
             this.m_StringSize = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
             count += sizeof(ushort);
-            this.m_MonsterType = BitConverter.ToString(segment.Array, segment.Offset + count);
+            string hexString = BitConverter.ToString(segment.Array, segment.Offset + count, m_StringSize).Replace("-", "");
+            this.m_MonsterType = Encoding.ASCII.GetString(Enumerable.Range(0, hexString.Length / 2)
+                             .Select(i => Convert.ToByte(hexString.Substring(i * 2, 2), 16))
+                             .ToArray());
             count += m_StringSize;
             this.m_IsPurchase = BitConverter.ToBoolean(segment.Array, segment.Offset + count);
             count += sizeof(bool);
@@ -332,7 +340,10 @@ namespace Server
             count += sizeof(ushort);
             this.m_StringSize = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
             count += sizeof(ushort);
-            this.m_MonsterType = BitConverter.ToString(segment.Array, segment.Offset + count);
+            string hexString = BitConverter.ToString(segment.Array, segment.Offset + count, m_StringSize).Replace("-", "");
+            this.m_MonsterType = Encoding.ASCII.GetString(Enumerable.Range(0, hexString.Length / 2)
+                             .Select(i => Convert.ToByte(hexString.Substring(i * 2, 2), 16))
+                             .ToArray());
             count += m_StringSize;
             this.m_PosX = BitConverter.ToSingle(segment.Array, segment.Offset + count);
             count += sizeof(float);
@@ -367,6 +378,8 @@ namespace Server
 
     public class S_BroadcastMonsterCreatePacket : IPacket
     {
+        public ushort m_StringSize = 0;
+        public string m_MonsterType = "";
         public ushort m_MonsterId = 0;
         public ushort m_MonsterTeam = 0;
         public ushort m_TargetLabId = 0;
@@ -374,7 +387,7 @@ namespace Server
         public float m_PosY = 0;
         public float m_PosZ = 0;
 
-        public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 3 + sizeof(float) * 3; } }
+        public ushort PacketSize { get { return (ushort)(sizeof(ushort) * 2 + sizeof(ushort) + m_StringSize + sizeof(ushort) * 3 + sizeof(float) * 3); } }
         public ushort PacketID { get { return (ushort)PacketType.S_BroadcastMonsterCreatePacket; } }
 
         public void Read(ArraySegment<byte> segment)
@@ -382,6 +395,13 @@ namespace Server
             int count = 0;
             count += sizeof(ushort);
             count += sizeof(ushort);
+            this.m_StringSize = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            count += sizeof(ushort);
+            string hexString = BitConverter.ToString(segment.Array, segment.Offset + count, m_StringSize).Replace("-", "");
+            this.m_MonsterType = Encoding.ASCII.GetString(Enumerable.Range(0, hexString.Length / 2)
+                             .Select(i => Convert.ToByte(hexString.Substring(i * 2, 2), 16))
+                             .ToArray());
+            count += m_StringSize;
             this.m_MonsterId = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
             count += sizeof(ushort);
             this.m_MonsterTeam = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
@@ -404,6 +424,10 @@ namespace Server
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(m_StringSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(Encoding.UTF8.GetBytes(m_MonsterType), 0, segment.Array, segment.Offset + count, m_StringSize);
+            count += m_StringSize;
             Array.Copy(BitConverter.GetBytes(this.m_MonsterId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.m_MonsterTeam), 0, segment.Array, segment.Offset + count, sizeof(ushort));
@@ -583,9 +607,10 @@ namespace Server
     public class S_BroadcastHitPacket : IPacket
     {
         public ushort m_ObjectId = 0;
-        public ushort m_ObjectHP = 0;
+        public ushort m_TargetId = 0;
+        public ushort m_TargetHP = 0;
 
-        public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 2; } }
+        public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 3; } }
         public ushort PacketID { get { return (ushort)PacketType.S_BroadcastHitPacket; } }
 
         public void Read(ArraySegment<byte> segment)
@@ -595,7 +620,9 @@ namespace Server
             count += sizeof(ushort);
             this.m_ObjectId = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
             count += sizeof(ushort);
-            this.m_ObjectHP = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            this.m_TargetId = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            count += sizeof(ushort);
+            this.m_TargetHP = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
             count += sizeof(ushort);
         }
 
@@ -609,7 +636,9 @@ namespace Server
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.m_ObjectId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
-            Array.Copy(BitConverter.GetBytes(this.m_ObjectHP), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            Array.Copy(BitConverter.GetBytes(this.m_TargetId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.m_TargetHP), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
 
             return SendBufferHelper.Close(count);

@@ -1,4 +1,8 @@
 ﻿
+using System.Text;
+using System.Linq;
+using System.Collections;
+
 class Program
 {
 
@@ -25,8 +29,17 @@ class Program
 
     static void Main(string[] args)
     {
-        Bee bq = null;
-        HasValue<Bee>(bq);
+        string monsterName = "Mage";
+
+
+        byte[] bytes = Encoding.UTF8.GetBytes(monsterName);
+        string hexString = BitConverter.ToString(bytes).Replace("-", ""); // "48656C6C6F"
+        IEnumerable ase = Enumerable.Range(0, hexString.Length / 2);
+        string result = Encoding.ASCII.GetString(Enumerable.Range(0, hexString.Length / 2)
+                         .Select(i => Convert.ToByte(hexString.Substring(i * 2, 2), 16))
+                         .ToArray());
+
+
     }
 }
 
