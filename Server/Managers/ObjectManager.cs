@@ -3,7 +3,7 @@ using ServerContent;
 public class ObjectManager
 {
     public static int m_ObjectCount { get; set; } = 0;
-    private Dictionary<int, BaseObject> m_ObjectDict = new Dictionary<int, BaseObject>(); 
+    public Dictionary<int, BaseObject> m_ObjectDict = new Dictionary<int, BaseObject>(); 
 
     public int Register(BaseObject obj)
     {
@@ -16,7 +16,7 @@ public class ObjectManager
     {
         m_ObjectDict.Remove(m_ObjectCount);
     }
-
+    
     public void RemoveAll()
     {
         m_ObjectDict.Clear();

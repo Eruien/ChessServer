@@ -32,13 +32,7 @@ class Program
         string monsterName = "Mage";
 
 
-        byte[] bytes = Encoding.UTF8.GetBytes(monsterName);
-        string hexString = BitConverter.ToString(bytes).Replace("-", ""); // "48656C6C6F"
-        IEnumerable ase = Enumerable.Range(0, hexString.Length / 2);
-        string result = Encoding.ASCII.GetString(Enumerable.Range(0, hexString.Length / 2)
-                         .Select(i => Convert.ToByte(hexString.Substring(i * 2, 2), 16))
-                         .ToArray());
-
+        double result = Math.Pow(0 * 0 + 0 * 0, 0.5f);
 
     }
 }

@@ -1,4 +1,5 @@
 using Server;
+using System;
 using System.Numerics;
 
 namespace ServerContent
@@ -16,6 +17,8 @@ namespace ServerContent
         private Selector m_Selector = new Selector();
         private float m_TransportPacketTime = 0.1f;
         private float m_CurrentTime = 0.0f;
+        private float m_PushingSpeed = 3.0f;
+        private float m_PushingSpan = 1.0f;
 
         // 생성자 소멸자
         public BaseMonster(BaseObject laboratory)
@@ -41,6 +44,7 @@ namespace ServerContent
 
                 if (m_Target != null)
                 {
+                    CollisionAvoidance();
                     m_Selector.Tick();
                 }
               
@@ -118,6 +122,30 @@ namespace ServerContent
             if (m_CurrentTime >= m_TransportPacketTime)
             {
                 action.Invoke();
+            }
+        }
+
+        private void CollisionAvoidance()
+        {
+            foreach (var obj in Managers.Object.m_ObjectDict)
+            {
+                Vector3 rDir = m_Position - obj.Value.m_Position;
+
+                double dis = Math.Pow(rDir.X * rDir.X + rDir.Z * rDir.Z, 0.5f);
+
+                if (rDir == Vector3.Zero)
+                {
+                    rDir = Vector3.Zero;
+                }
+                else
+                {
+                    rDir = Vector3.Normalize(rDir);
+                }
+
+                if (dis <= m_PushingSpan)
+                {
+                    m_Position += rDir * m_PushingSpeed * (float)LTimer.m_SPF;
+                }
             }
         }
 
