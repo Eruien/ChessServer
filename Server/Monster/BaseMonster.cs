@@ -39,8 +39,11 @@ namespace ServerContent
             {
                 m_CurrentTime += (float)LTimer.m_SPF;
 
-                m_Selector.Tick();
-
+                if (m_Target != null)
+                {
+                    m_Selector.Tick();
+                }
+              
                 if (m_CurrentTime >= m_TransportPacketTime)
                 {
                     m_CurrentTime = 0.0f;
