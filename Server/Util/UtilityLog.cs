@@ -30,4 +30,11 @@ namespace ServerContent
         Attack,
         Death,
     }
+
+    public enum PanelState
+    {
+        None,
+        Select,
+        SelectMove,
+    }
 }
