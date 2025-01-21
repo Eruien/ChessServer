@@ -240,7 +240,7 @@
               "RelativeDocumentMoniker": "Server\\Util\\UtilityLog.cs",
               "ToolTip": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Server\\Util\\UtilityLog.cs",
               "RelativeToolTip": "Server\\Util\\UtilityLog.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAAAAAA",
+              "ViewState": "AQIAAAUAAAAAAAAAAADwvwwAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-28T13:27:27.497Z",
               "EditorCaption": ""
@@ -267,8 +267,7 @@
               "RelativeToolTip": "Server\\Managers\\ObjectManager.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-26T13:45:39.865Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-26T13:45:39.865Z"
             },
             {
               "$type": "Document",
