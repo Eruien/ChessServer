@@ -12,6 +12,7 @@ namespace Server
         None,
         LaboratoryPacket,
         C_GameStartPacket,
+        S_BroadcastGameStartPacket,
         S_SetInitialDataPacket,
         S_LabListPacket,
         C_MonsterPurchasePacket,
@@ -41,6 +42,37 @@ namespace Server
 
         public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(bool) * 1; } }
         public ushort PacketID { get { return (ushort)PacketType.C_GameStartPacket; } }
+
+        public void Read(ArraySegment<byte> segment)
+        {
+            int count = 0;
+            count += sizeof(ushort);
+            count += sizeof(ushort);
+            this.m_IsGameStart = BitConverter.ToBoolean(segment.Array, segment.Offset + count);
+            count += sizeof(bool);
+        }
+
+        public ArraySegment<byte> Write()
+        {
+            int count = 0;
+            ArraySegment<byte> segment = SendBufferHelper.Open(4096);
+            Array.Copy(BitConverter.GetBytes(this.PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.m_IsGameStart), 0, segment.Array, segment.Offset + count, sizeof(bool));
+            count += sizeof(bool);
+
+            return SendBufferHelper.Close(count);
+        }
+    }
+
+    public class S_BroadcastGameStartPacket : IPacket
+    {
+        public bool m_IsGameStart = false;
+
+        public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(bool) * 1; } }
+        public ushort PacketID { get { return (ushort)PacketType.S_BroadcastGameStartPacket; } }
 
         public void Read(ArraySegment<byte> segment)
         {

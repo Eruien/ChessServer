@@ -11,11 +11,19 @@ namespace Server
         public void C_GameStartPacketHandler(Session session, IPacket packet)
         {
             C_GameStartPacket gameStartPacket = packet as C_GameStartPacket;
+            S_BroadcastGameStartPacket broadcastGameStartPacket = new S_BroadcastGameStartPacket();
+            ClientSession clientSession = session as ClientSession;
+
+            if (clientSession.m_GameRoom == null) return;
 
             if (gameStartPacket.m_IsGameStart)
             {
+                broadcastGameStartPacket.m_IsGameStart = true;
                 Program.g_IsGameStart = true;
             }
+
+            Room room = clientSession.m_GameRoom;
+            room.BroadCast(broadcastGameStartPacket.Write());
         }
 
         public void C_MonsterPurchasePacketHandler(Session session, IPacket packet)
