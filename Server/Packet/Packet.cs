@@ -102,8 +102,8 @@ namespace Server
     public class S_SetInitialDataPacket : IPacket
     {
         public ushort m_MyTeam = 0;
-
-        public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 1; } }
+        public ushort m_InitialUserMoney = 0;
+        public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 2; } }
         public ushort PacketID { get { return (ushort)PacketType.S_SetInitialDataPacket; } }
 
         public void Read(ArraySegment<byte> segment)
@@ -112,6 +112,8 @@ namespace Server
             count += sizeof(ushort);
             count += sizeof(ushort);
             this.m_MyTeam = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            count += sizeof(ushort);
+            this.m_InitialUserMoney = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
             count += sizeof(ushort);
         }
 
@@ -124,6 +126,8 @@ namespace Server
             Array.Copy(BitConverter.GetBytes(this.PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.m_MyTeam), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.m_InitialUserMoney), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
 
             return SendBufferHelper.Close(count);
@@ -236,13 +240,13 @@ namespace Server
     {
         public ushort m_StringSize = 0;
         public string m_MonsterType = "";
-        public int m_UserGameMoney = 0;
-        public int m_MonsterPrice = 0;
+        public ushort m_UserGameMoney = 0;
+        public ushort m_MonsterPrice = 0;
         public float m_PosX = 0;
         public float m_PosY = 0;
         public float m_PosZ = 0;
 
-        public ushort PacketSize { get { return (ushort)(sizeof(ushort) * 2 + sizeof(ushort) + m_StringSize + sizeof(int) * 2 + sizeof(float) * 3); } }
+        public ushort PacketSize { get { return (ushort)(sizeof(ushort) * 2 + sizeof(ushort) + m_StringSize + sizeof(ushort) * 2 + sizeof(float) * 3); } }
         public ushort PacketID { get { return (ushort)PacketType.C_MonsterPurchasePacket; } }
 
         public void Read(ArraySegment<byte> segment)
@@ -257,10 +261,10 @@ namespace Server
                              .Select(i => Convert.ToByte(hexString.Substring(i * 2, 2), 16))
                              .ToArray());
             count += m_StringSize;
-            this.m_UserGameMoney = BitConverter.ToInt32(segment.Array, segment.Offset + count);
-            count += sizeof(int);
-            this.m_MonsterPrice = BitConverter.ToInt32(segment.Array, segment.Offset + count);
-            count += sizeof(int);
+            this.m_UserGameMoney = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            count += sizeof(ushort);
+            this.m_MonsterPrice = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            count += sizeof(ushort);
             this.m_PosX = BitConverter.ToSingle(segment.Array, segment.Offset + count);
             count += sizeof(float);
             this.m_PosY = BitConverter.ToSingle(segment.Array, segment.Offset + count);
@@ -281,10 +285,10 @@ namespace Server
             count += sizeof(ushort);
             Array.Copy(Encoding.UTF8.GetBytes(m_MonsterType), 0, segment.Array, segment.Offset + count, m_StringSize);
             count += m_StringSize;
-            Array.Copy(BitConverter.GetBytes(this.m_UserGameMoney), 0, segment.Array, segment.Offset + count, sizeof(int));
-            count += sizeof(int);
-            Array.Copy(BitConverter.GetBytes(this.m_MonsterPrice), 0, segment.Array, segment.Offset + count, sizeof(int));
-            count += sizeof(int);
+            Array.Copy(BitConverter.GetBytes(this.m_UserGameMoney), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.m_MonsterPrice), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.m_PosX), 0, segment.Array, segment.Offset + count, sizeof(float));
             count += sizeof(float);
             Array.Copy(BitConverter.GetBytes(this.m_PosY), 0, segment.Array, segment.Offset + count, sizeof(float));
@@ -301,11 +305,12 @@ namespace Server
         public ushort m_StringSize = 0;
         public string m_MonsterType = "";
         public bool m_IsPurchase = false;
+        public ushort m_UserGameMoney = 0;
         public float m_PosX = 0;
         public float m_PosY = 0;
         public float m_PosZ = 0;
 
-        public ushort PacketSize { get { return (ushort)(sizeof(ushort) * 2 + sizeof(ushort) + m_StringSize + sizeof(bool) * 1 + sizeof(float) * 3); } }
+        public ushort PacketSize { get { return (ushort)(sizeof(ushort) * 2 + sizeof(ushort) + m_StringSize + sizeof(bool) * 1 + sizeof(ushort) * 1 + sizeof(float) * 3); } }
         public ushort PacketID { get { return (ushort)PacketType.S_PurchaseAllowedPacket; } }
 
         public void Read(ArraySegment<byte> segment)
@@ -322,6 +327,8 @@ namespace Server
             count += m_StringSize;
             this.m_IsPurchase = BitConverter.ToBoolean(segment.Array, segment.Offset + count);
             count += sizeof(bool);
+            this.m_UserGameMoney = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            count += sizeof(ushort);
             this.m_PosX = BitConverter.ToSingle(segment.Array, segment.Offset + count);
             count += sizeof(float);
             this.m_PosY = BitConverter.ToSingle(segment.Array, segment.Offset + count);
@@ -344,6 +351,8 @@ namespace Server
             count += m_StringSize;
             Array.Copy(BitConverter.GetBytes(this.m_IsPurchase), 0, segment.Array, segment.Offset + count, sizeof(bool));
             count += sizeof(bool);
+            Array.Copy(BitConverter.GetBytes(this.m_UserGameMoney), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.m_PosX), 0, segment.Array, segment.Offset + count, sizeof(float));
             count += sizeof(float);
             Array.Copy(BitConverter.GetBytes(this.m_PosY), 0, segment.Array, segment.Offset + count, sizeof(float));

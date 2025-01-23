@@ -9,11 +9,14 @@ namespace Server
         public Team m_SessionTeam { get; set; }
         public Room m_GameRoom { get; set; }
 
+        private int m_UserInitialMoney = 4000;
+
         public override void OnConnect()
         {
             Program.g_GameRoom.Enter(this);
             S_SetInitialDataPacket dataPacket = new S_SetInitialDataPacket();
-         
+            dataPacket.m_InitialUserMoney = (ushort)m_UserInitialMoney;
+
             if ((m_SessionId % 2) == 0)
             {
                 this.m_SessionTeam = Team.BlueTeam;

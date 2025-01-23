@@ -5,6 +5,8 @@ namespace Server
 {
     class Program
     {
+        public static bool g_RedTeamGameStart = false;
+        public static bool g_BlueTeamGameStart = false;
         public static bool g_IsGameStart = false;
         public static Room g_GameRoom = new Room();
 

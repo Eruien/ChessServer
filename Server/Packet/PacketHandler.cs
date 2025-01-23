@@ -16,7 +16,16 @@ namespace Server
 
             if (clientSession.m_GameRoom == null) return;
 
-            if (gameStartPacket.m_IsGameStart)
+            if (clientSession.m_SessionTeam == Team.RedTeam)
+            {
+                Program.g_RedTeamGameStart = true;
+            }
+            else if (clientSession.m_SessionTeam == Team.BlueTeam)
+            {
+                Program.g_BlueTeamGameStart = true;
+            }
+
+            if (Program.g_RedTeamGameStart && Program.g_BlueTeamGameStart)
             {
                 broadcastGameStartPacket.m_IsGameStart = true;
                 Program.g_IsGameStart = true;
@@ -40,6 +49,7 @@ namespace Server
 
             if (purchasePacket.m_UserGameMoney >= purchasePacket.m_MonsterPrice)
             {
+                purchasePacket.m_UserGameMoney -= purchasePacket.m_MonsterPrice;
                 purchaseAllowedPacket.m_IsPurchase = true;
                 purchaseAllowedPacket.m_PosX = purchasePacket.m_PosX;
                 purchaseAllowedPacket.m_PosY = purchasePacket.m_PosY;
@@ -50,6 +60,7 @@ namespace Server
                 purchaseAllowedPacket.m_IsPurchase = false;
             }
 
+            purchaseAllowedPacket.m_UserGameMoney = purchasePacket.m_UserGameMoney;
             Room room = clientSession.m_GameRoom;
             room.Push(() => clientSession.Send(purchaseAllowedPacket.Write()));
         }

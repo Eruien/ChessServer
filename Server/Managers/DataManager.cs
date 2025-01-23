@@ -18,6 +18,7 @@ public class MonsterStat
     public float defaultAttackDamage;
     public float moveSpeed;
     public float projectTileSpeed;
+    public int monsterPrice;
 }
 
 [Serializable]
