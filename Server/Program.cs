@@ -26,7 +26,9 @@ namespace Server
             blueTeamLab.SetPosition(0.0f, 2.904f, 22.0f);
 
             int redNumber = Managers.Object.Register(redTeamLab);
+            redTeamLab.m_ObjectId = redNumber;
             int blueNumber = Managers.Object.Register(blueTeamLab);
+            blueTeamLab.m_ObjectId = blueNumber;
             Managers.Lab.Register(Team.RedTeam, redTeamLab, redNumber);
             Managers.Lab.Register(Team.BlueTeam, blueTeamLab, blueNumber);
         }

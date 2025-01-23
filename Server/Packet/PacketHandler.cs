@@ -20,6 +20,7 @@ namespace Server
             {
                 broadcastGameStartPacket.m_IsGameStart = true;
                 Program.g_IsGameStart = true;
+                BaseMonster.m_SearchNearTarget.Invoke();
             }
 
             Room room = clientSession.m_GameRoom;
@@ -133,13 +134,13 @@ namespace Server
             if (clientSession.m_GameRoom == null) return;
 
             BaseObject obj = Managers.Object.GetObject(changeTargetPacket.m_ObjectId);
-            BaseObject targetObject = Managers.Object.GetObject(changeTargetPacket.m_TargetObjectId);
-            obj.m_BlackBoard.m_TargetObject.Key = targetObject;
             BaseMonster monster = obj as BaseMonster;
+            BaseObject targetObject = Managers.Object.GetObject(monster.SearchNearTarget().m_ObjectId);
+            obj.m_BlackBoard.m_TargetObject.Key = targetObject;
             monster.m_Target = targetObject;
             S_BroadcastChangeTargetPacket broadcastChangeTarget = new S_BroadcastChangeTargetPacket();
             broadcastChangeTarget.m_ObjectId = changeTargetPacket.m_ObjectId;
-            broadcastChangeTarget.m_TargetObjectId = changeTargetPacket.m_TargetObjectId;
+            broadcastChangeTarget.m_TargetObjectId = (ushort)targetObject.m_ObjectId;
 
             Room room = clientSession.m_GameRoom;
             room.BroadCast(broadcastChangeTarget.Write());

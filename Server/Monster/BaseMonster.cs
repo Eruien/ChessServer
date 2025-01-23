@@ -1,4 +1,5 @@
 using Server;
+using ServerCore;
 using System;
 using System.Numerics;
 
@@ -9,6 +10,7 @@ namespace ServerContent
         // public, protected, private 순서
         // 참조타입, 구조체, 일반 타입
         // 거리 계산이나 이런것을 위하여
+        public static System.Action m_SearchNearTarget;
         public BaseObject m_Target { get; set; }
         public BaseObject m_TargetLab { get; set; }
         public MonsterType m_MonsterType { get; set; } = MonsterType.None;
@@ -25,6 +27,7 @@ namespace ServerContent
         {
             m_TargetLab = laboratory;
             m_Target = m_TargetLab;
+            m_SearchNearTarget += () => SearchFristTarget();
         }
 
         // 기본 로직 Init, Frame, Render, Release
@@ -138,6 +141,38 @@ namespace ServerContent
                     m_Position += rDir * m_PushingSpeed * (float)LTimer.m_SPF;
                 }
             }
+        }
+
+        public BaseObject SearchNearTarget()
+        {
+            BaseObject nearTarget = null;
+            double minDistance = double.PositiveInfinity;
+            
+            foreach (var obj in Managers.Object.m_ObjectDict)
+            {
+                if (obj.Value.m_SelfTeam == m_SelfTeam) continue;
+                if (obj.Value.m_IsDeath) continue;
+
+                Vector3 rDir = obj.Value.m_Position - m_Position;
+                double dis = Math.Pow(rDir.X * rDir.X + rDir.Z * rDir.Z, 0.5f);
+
+                if (dis <= minDistance)
+                {
+                    minDistance = dis;
+                    nearTarget = obj.Value;
+                }
+            }
+
+            return nearTarget;
+        }
+
+        public void SearchFristTarget()
+        {   
+            S_BroadcastChangeTargetPacket broadcastChangeTarget = new S_BroadcastChangeTargetPacket();
+            broadcastChangeTarget.m_ObjectId = (ushort)m_ObjectId;
+            broadcastChangeTarget.m_TargetObjectId = (ushort)SearchNearTarget().m_ObjectId;
+
+            TransportPacket(() => Program.g_GameRoom.BroadCast(broadcastChangeTarget.Write()));
         }
 
         // TaskNode 모음
