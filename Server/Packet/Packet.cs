@@ -20,6 +20,7 @@ namespace Server
         C_MonsterCreatePacket,
         S_BroadcastMonsterCreatePacket,
         S_BroadcastMonsterStatePacket,
+        S_BroadcastMonsterDeathPacket,
         S_BroadcastMovePacket,
         C_AttackDistancePacket,
         C_HitPacket,
@@ -509,6 +510,37 @@ namespace Server
             Array.Copy(BitConverter.GetBytes(this.m_CurrentState), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
 
+            return SendBufferHelper.Close(count);
+        }
+    }
+
+    public class S_BroadcastMonsterDeathPacket: IPacket
+    {
+        public ushort m_MonsterId = 0;
+       
+        public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 1; } }
+        public ushort PacketID { get { return (ushort)PacketType.S_BroadcastMonsterDeathPacket; } }
+
+        public void Read(ArraySegment<byte> segment)
+        {
+            int count = 0;
+            count += sizeof(ushort);
+            count += sizeof(ushort);
+            this.m_MonsterId = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            count += sizeof(ushort);
+        }
+
+        public ArraySegment<byte> Write()
+        {
+            int count = 0;
+            ArraySegment<byte> segment = SendBufferHelper.Open(4096);
+            Array.Copy(BitConverter.GetBytes(this.PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.m_MonsterId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+           
             return SendBufferHelper.Close(count);
         }
     }

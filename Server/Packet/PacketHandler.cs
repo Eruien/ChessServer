@@ -113,18 +113,16 @@ namespace Server
             BaseObject monster = Managers.Object.GetObject(hitPacket.m_MonsterId);
             BaseObject targetObject =  Managers.Object.GetObject(hitPacket.m_TargetObjectId);
             targetObject.m_BlackBoard.m_HP.Key -= monster.m_BlackBoard.m_DefaultAttackDamage.Key;
+
             if (targetObject.m_BlackBoard.m_HP.Key <= 0)
             {
-                BaseMonster mon = monster as BaseMonster;
-                mon.SetTarget(null);
-            }
-            S_BroadcastHitPacket broadCastHitPacket = new S_BroadcastHitPacket();
-            broadCastHitPacket.m_ObjectId = (ushort)monster.m_ObjectId;
-            broadCastHitPacket.m_TargetId = hitPacket.m_TargetObjectId;
-            broadCastHitPacket.m_TargetHP = (ushort)targetObject.m_BlackBoard.m_HP.Key;
+                S_BroadcastMonsterDeathPacket monsterDeathPacket = new S_BroadcastMonsterDeathPacket();
+                monsterDeathPacket.m_MonsterId = (ushort)targetObject.m_ObjectId;
 
-            Room room = clientSession.m_GameRoom;
-            room.BroadCast(broadCastHitPacket.Write());
+                targetObject.m_IsDeath = true;
+                Room room = clientSession.m_GameRoom;
+                room.BroadCast(monsterDeathPacket.Write());
+            }
         }
 
         public void C_ChangeTargetPacketHandler(Session session, IPacket packet)

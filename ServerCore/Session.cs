@@ -127,7 +127,7 @@ namespace ServerCore
                 {
                     try
                     {
-                        Console.WriteLine("메시지 전송 성공");
+                        //Console.WriteLine("메시지 전송 성공");
                         m_SendArgs.BufferList = null;
                         m_PendingList.Clear();
                        
@@ -166,7 +166,7 @@ namespace ServerCore
         {
             if (args.SocketError == SocketError.Success && args.BytesTransferred > 0)
             {
-                Console.WriteLine("메시지를 성공적으로 받음");
+                //Console.WriteLine("메시지를 성공적으로 받음");
                 m_RecvBuffer.OnWrite(args.BytesTransferred);
                 // 읽는건 컨텐츠 딴에 맡김
                 int readSize = OnRecv(m_RecvBuffer.ReadSegemnt);

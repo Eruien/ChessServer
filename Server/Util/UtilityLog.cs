@@ -28,7 +28,6 @@ namespace ServerContent
         Idle,
         Move,
         Attack,
-        Death,
     }
 
     public enum PanelState

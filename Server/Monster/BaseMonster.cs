@@ -59,15 +59,6 @@ namespace ServerContent
         private void MakeBehaviorTree()
         {
             // HP관리
-            Selector hpMgr = new Selector();
-            m_Selector.AddChild(hpMgr);
-
-            Sequence<float, b_float> checkHPZero = new Sequence<float, b_float>(KeyQuery.IsLessThanOrEqualTo, 0.001f, m_BlackBoard.m_HP);
-            hpMgr.AddChild(checkHPZero);
-
-            ServerContent.Action action = new ServerContent.Action(IsHPZero);
-            checkHPZero.AddChild(action);
-
             // 공격 관리
             Selector attackMgr = new Selector();
             m_Selector.AddChild(attackMgr);
@@ -193,26 +184,6 @@ namespace ServerContent
             TransportPacket(() => Program.g_GameRoom.BroadCast(movePacket.Write()));
             
             return ReturnCode.SUCCESS;
-        }
-
-        private ReturnCode IsHPZero()
-        {
-            if (m_BlackBoard.m_HP.Key <= 0)
-            {
-                m_MonsterState = MonsterState.Death;
-                S_BroadcastMonsterStatePacket monsterStatePacket = new S_BroadcastMonsterStatePacket();
-                monsterStatePacket.m_MonsterId = (ushort)m_ObjectId;
-                monsterStatePacket.m_CurrentState = (ushort)m_MonsterState;
-
-                Program.g_GameRoom.BroadCast(monsterStatePacket.Write());
-               
-                m_IsDeath = true;
-                return ReturnCode.SUCCESS;
-            }
-            else
-            {
-                return ReturnCode.FAIL;
-            }
         }
     }
 }
