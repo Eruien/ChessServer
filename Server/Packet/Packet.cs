@@ -21,6 +21,8 @@ namespace Server
         S_BroadcastMonsterCreatePacket,
         S_BroadcastMonsterStatePacket,
         S_BroadcastMonsterDeathPacket,
+        C_SetPositionPacket,
+        S_BroadcastSetPositionPacket,
         S_BroadcastMovePacket,
         C_AttackDistancePacket,
         C_HitPacket,
@@ -549,6 +551,98 @@ namespace Server
             count += sizeof(ushort);
             Array.Copy(BitConverter.GetBytes(this.m_MonsterId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
             count += sizeof(ushort);
+
+            return SendBufferHelper.Close(count);
+        }
+    }
+
+    public class C_SetPositionPacket : IPacket
+    {
+        public ushort m_MonsterId = 0;
+        public float m_PosX = 0;
+        public float m_PosY = 0;
+        public float m_PosZ = 0;
+
+        public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 1 + sizeof(float) * 3; } }
+        public ushort PacketID { get { return (ushort)PacketType.C_SetPositionPacket; } }
+
+        public void Read(ArraySegment<byte> segment)
+        {
+            int count = 0;
+            count += sizeof(ushort);
+            count += sizeof(ushort);
+            this.m_MonsterId = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            count += sizeof(ushort);
+            this.m_PosX = BitConverter.ToSingle(segment.Array, segment.Offset + count);
+            count += sizeof(float);
+            this.m_PosY = BitConverter.ToSingle(segment.Array, segment.Offset + count);
+            count += sizeof(float);
+            this.m_PosZ = BitConverter.ToSingle(segment.Array, segment.Offset + count);
+            count += sizeof(float);
+        }
+
+        public ArraySegment<byte> Write()
+        {
+            int count = 0;
+            ArraySegment<byte> segment = SendBufferHelper.Open(4096);
+            Array.Copy(BitConverter.GetBytes(this.PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.m_MonsterId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.m_PosX), 0, segment.Array, segment.Offset + count, sizeof(float));
+            count += sizeof(float);
+            Array.Copy(BitConverter.GetBytes(this.m_PosY), 0, segment.Array, segment.Offset + count, sizeof(float));
+            count += sizeof(float);
+            Array.Copy(BitConverter.GetBytes(this.m_PosZ), 0, segment.Array, segment.Offset + count, sizeof(float));
+            count += sizeof(float);
+
+            return SendBufferHelper.Close(count);
+        }
+    }
+
+    public class S_BroadcastSetPositionPacket : IPacket
+    {
+        public ushort m_MonsterId = 0;
+        public float m_PosX = 0;
+        public float m_PosY = 0;
+        public float m_PosZ = 0;
+
+        public ushort PacketSize { get { return sizeof(ushort) * 2 + sizeof(ushort) * 1 + sizeof(float) * 3; } }
+        public ushort PacketID { get { return (ushort)PacketType.S_BroadcastSetPositionPacket; } }
+
+        public void Read(ArraySegment<byte> segment)
+        {
+            int count = 0;
+            count += sizeof(ushort);
+            count += sizeof(ushort);
+            this.m_MonsterId = BitConverter.ToUInt16(segment.Array, segment.Offset + count);
+            count += sizeof(ushort);
+            this.m_PosX = BitConverter.ToSingle(segment.Array, segment.Offset + count);
+            count += sizeof(float);
+            this.m_PosY = BitConverter.ToSingle(segment.Array, segment.Offset + count);
+            count += sizeof(float);
+            this.m_PosZ = BitConverter.ToSingle(segment.Array, segment.Offset + count);
+            count += sizeof(float);
+        }
+
+        public ArraySegment<byte> Write()
+        {
+            int count = 0;
+            ArraySegment<byte> segment = SendBufferHelper.Open(4096);
+            Array.Copy(BitConverter.GetBytes(this.PacketSize), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.PacketID), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.m_MonsterId), 0, segment.Array, segment.Offset + count, sizeof(ushort));
+            count += sizeof(ushort);
+            Array.Copy(BitConverter.GetBytes(this.m_PosX), 0, segment.Array, segment.Offset + count, sizeof(float));
+            count += sizeof(float);
+            Array.Copy(BitConverter.GetBytes(this.m_PosY), 0, segment.Array, segment.Offset + count, sizeof(float));
+            count += sizeof(float);
+            Array.Copy(BitConverter.GetBytes(this.m_PosZ), 0, segment.Array, segment.Offset + count, sizeof(float));
+            count += sizeof(float);
 
             return SendBufferHelper.Close(count);
         }

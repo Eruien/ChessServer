@@ -103,6 +103,26 @@ namespace Server
             room.BroadCast(broadcastMonsterPacket.Write());
         }
 
+        public void C_SetPositionPacketHandler(Session session, IPacket packet)
+        {
+            C_SetPositionPacket positionPacket = packet as C_SetPositionPacket;
+            S_BroadcastSetPositionPacket broadcastPositionPacket = new S_BroadcastSetPositionPacket();
+            ClientSession clientSession = session as ClientSession;
+
+            if (clientSession.m_GameRoom == null) return;
+
+            BaseObject obj = Managers.Object.GetObject(positionPacket.m_MonsterId);
+            obj.SetPosition(positionPacket.m_PosX, positionPacket.m_PosY, positionPacket.m_PosZ);
+
+            broadcastPositionPacket.m_MonsterId = (ushort)obj.m_ObjectId;
+            broadcastPositionPacket.m_PosX = obj.m_Position.X;
+            broadcastPositionPacket.m_PosY = obj.m_Position.Y;
+            broadcastPositionPacket.m_PosZ = obj.m_Position.Z;
+
+            Room room = clientSession.m_GameRoom;
+            room.BroadCast(broadcastPositionPacket.Write());
+        }
+
         public void C_AttackDistancePacketHandler(Session session, IPacket packet)
         {
             C_AttackDistancePacket attackDistancePacket = packet as C_AttackDistancePacket;
