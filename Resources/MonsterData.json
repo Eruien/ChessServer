@@ -9,8 +9,7 @@
       "attackDistance": "6.0",
       "defaultAttackDamage": "50.0",
       "moveSpeed": "5.0",
-      "projectTileSpeed": "0.0",
-      "monsterPrice": "100"
+      "projectTileSpeed": "0.0"
     },
     {
       "name": "Skeleton",
@@ -21,8 +20,7 @@
       "attackDistance": "6.0",
       "defaultAttackDamage": "50.0",
       "moveSpeed": "5.0",
-      "projectTileSpeed": "0.0",
-      "monsterPrice": "300"
+      "projectTileSpeed": "0.0"
     },
     {
       "name": "Mage",
@@ -33,8 +31,7 @@
       "attackDistance": "20.0",
       "defaultAttackDamage": "50.0",
       "moveSpeed": "3.0",
-      "projectTileSpeed": "10.0",
-      "monsterPrice": "500"
+      "projectTileSpeed": "10.0"
     },
     {
       "name": "Bee",
@@ -45,8 +42,7 @@
       "attackDistance": "3.0",
       "defaultAttackDamage": "50.0",
       "moveSpeed": "5.0",
-      "projectTileSpeed": "0.0",
-      "monsterPrice": "300"
+      "projectTileSpeed": "0.0"
     },
     {
       "name": "BattleBee",
@@ -57,8 +53,7 @@
       "attackDistance": "14.0",
       "defaultAttackDamage": "50.0",
       "moveSpeed": "10.0",
-      "projectTileSpeed": "10.0",
-      "monsterPrice": "700"
+      "projectTileSpeed": "10.0"
     },
     {
       "name": "Beholder",
@@ -69,8 +64,7 @@
       "attackDistance": "30.0",
       "defaultAttackDamage": "50.0",
       "moveSpeed": "10.0",
-      "projectTileSpeed": "10.0",
-      "monsterPrice": "800"
+      "projectTileSpeed": "10.0"
     },
     {
       "name": "Specter",
@@ -81,8 +75,7 @@
       "attackDistance": "5.0",
       "defaultAttackDamage": "50.0",
       "moveSpeed": "10.0",
-      "projectTileSpeed": "0.0",
-      "monsterPrice": "500"
+      "projectTileSpeed": "0.0"
     },
     {
       "name": "Golem",
@@ -93,8 +86,7 @@
       "attackDistance": "6.0",
       "defaultAttackDamage": "50.0",
       "moveSpeed": "3.0",
-      "projectTileSpeed": "0.0",
-      "monsterPrice": "600"
+      "projectTileSpeed": "0.0"
     }
   ]
 }

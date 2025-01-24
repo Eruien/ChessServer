@@ -14,8 +14,8 @@ namespace ServerCore
         {
             string host = Dns.GetHostName();
             IPHostEntry ipHost = Dns.GetHostEntry(host);
-            //IPAddress ipAddr = IPAddress.Parse("25.31.78.91");
-            IPEndPoint endPoint = new IPEndPoint(ipHost.AddressList[0], Global.g_PortNumber);
+            IPAddress ipAddr = IPAddress.Parse("192.168.0.5");
+            IPEndPoint endPoint = new IPEndPoint(ipAddr, Global.g_PortNumber);
             m_Socket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
             m_Socket.Bind(endPoint);
