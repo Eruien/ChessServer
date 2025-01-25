@@ -2,6 +2,8 @@ using Server;
 using ServerCore;
 using System;
 using System.Numerics;
+using System.Threading;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ServerContent
 {
@@ -48,6 +50,7 @@ namespace ServerContent
                 if (m_Target != null)
                 {
                     CollisionAvoidance();
+                    m_BlackBoard.m_AttackDistance.Key = (float)ComputeAttackDistance();
                     m_Selector.Tick();
                 }
               
@@ -109,6 +112,14 @@ namespace ServerContent
             m_BlackBoard.m_DefaultAttackDamage.Key = Managers.Data.m_MonsterDict[m_Name].defaultAttackDamage;
             m_BlackBoard.m_MoveSpeed.Key = Managers.Data.m_MonsterDict[m_Name].moveSpeed;
             m_BlackBoard.m_ProjectTileSpeed.Key = Managers.Data.m_MonsterDict[m_Name].projectTileSpeed;
+        }
+
+        private double ComputeAttackDistance()
+        {
+            Vector3 vec = m_Target.m_Position - m_Position;
+            double dis = Math.Pow(vec.X * vec.X + vec.Z * vec.Z, 0.5f);
+
+            return dis;
         }
 
         private void TransportPacket(System.Action action)
@@ -182,6 +193,9 @@ namespace ServerContent
             S_BroadcastMonsterStatePacket monsterStatePacket = new S_BroadcastMonsterStatePacket();
             monsterStatePacket.m_MonsterId = (ushort)m_ObjectId;
             monsterStatePacket.m_CurrentState = (ushort)m_MonsterState;
+            monsterStatePacket.m_PosX = m_Position.X;
+            monsterStatePacket.m_PosY = m_Position.Y;
+            monsterStatePacket.m_PosZ = m_Position.Z;
 
             TransportPacket(() => Program.g_GameRoom.BroadCast(monsterStatePacket.Write()));
             
@@ -201,9 +215,9 @@ namespace ServerContent
             {
                 dir = Vector3.Normalize(dir);
             }
-
+            float fixY = m_Position.Y;
             m_Position += dir * m_BlackBoard.m_MoveSpeed.Key * (float)LTimer.m_SPF;
-
+            m_Position = new Vector3(m_Position.X, fixY, m_Position.Z);
             // 패킷 보내기
             S_BroadcastMovePacket movePacket = new S_BroadcastMovePacket();
             movePacket.m_MonsterId = (ushort)m_ObjectId;

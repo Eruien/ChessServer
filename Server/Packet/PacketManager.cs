@@ -29,6 +29,9 @@ namespace Server
             m_MakePacketDict.Add((ushort)PacketType.C_SetPositionPacket, MakePacket<C_SetPositionPacket>);
             m_RunFunctionDict.Add((ushort)PacketType.C_SetPositionPacket, PacketHandler.Instance.C_SetPositionPacketHandler);
 
+            m_MakePacketDict.Add((ushort)PacketType.C_ConfirmMovePacket, MakePacket<C_ConfirmMovePacket>);
+            m_RunFunctionDict.Add((ushort)PacketType.C_ConfirmMovePacket, PacketHandler.Instance.C_ConfirmMovePacketHandler);
+
             m_MakePacketDict.Add((ushort)PacketType.C_AttackDistancePacket, MakePacket<C_AttackDistancePacket>);
             m_RunFunctionDict.Add((ushort)PacketType.C_AttackDistancePacket, PacketHandler.Instance.C_AttackDistancePacketHandler);
 
