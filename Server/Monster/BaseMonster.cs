@@ -17,7 +17,7 @@ namespace ServerContent
         public BaseObject m_TargetLab { get; set; }
         public MonsterType m_MonsterType { get; set; } = MonsterType.None;
         public MonsterState m_MonsterState { get; set; } = MonsterState.None;
-       
+
         private Selector m_Selector = new Selector();
         private float m_TransportPacketTime = 0.1f;
         private float m_CurrentTime = 0.0f;
@@ -130,6 +130,23 @@ namespace ServerContent
             }
         }
 
+        private void SendMovePacket()
+        {
+            // 패킷 보내기
+            S_BroadcastMovePacket movePacket = new S_BroadcastMovePacket();
+            movePacket.m_MonsterId = (ushort)m_ObjectId;
+            movePacket.m_PosX = m_Position.X;
+            movePacket.m_PosY = m_Position.Y;
+            movePacket.m_PosZ = m_Position.Z;
+
+            S_BroadcastMonsterStatePacket monsterStatePacket = new S_BroadcastMonsterStatePacket();
+            monsterStatePacket.m_MonsterId = (ushort)m_ObjectId;
+            monsterStatePacket.m_CurrentState = (ushort)MonsterState.Move;
+
+            TransportPacket(() => Program.g_GameRoom.BroadCast(monsterStatePacket.Write()));
+            TransportPacket(() => Program.g_GameRoom.BroadCast(movePacket.Write()));
+        }
+
         private void CollisionAvoidance()
         {
             foreach (var obj in Managers.Object.m_ObjectDict)
@@ -185,7 +202,7 @@ namespace ServerContent
 
             TransportPacket(() => Program.g_GameRoom.BroadCast(broadcastChangeTarget.Write()));
         }
-
+         
         // TaskNode 모음
         private ReturnCode Attack()
         {
@@ -193,18 +210,26 @@ namespace ServerContent
             S_BroadcastMonsterStatePacket monsterStatePacket = new S_BroadcastMonsterStatePacket();
             monsterStatePacket.m_MonsterId = (ushort)m_ObjectId;
             monsterStatePacket.m_CurrentState = (ushort)m_MonsterState;
-            monsterStatePacket.m_PosX = m_Position.X;
-            monsterStatePacket.m_PosY = m_Position.Y;
-            monsterStatePacket.m_PosZ = m_Position.Z;
+           
+            if (!m_IsPosCorrect)
+            {
+                SendMovePacket();
+                S_ConfirmMovePacket confirmMovePacket = new S_ConfirmMovePacket();
+                confirmMovePacket.m_MonsterId = (ushort)m_ObjectId;
+                confirmMovePacket.m_PosX = m_Position.X;
+                confirmMovePacket.m_PosY = m_Position.Y;
+                confirmMovePacket.m_PosZ = m_Position.Z;
+                TransportPacket(() => Program.g_GameRoom.BroadCast(confirmMovePacket.Write()));
+                return ReturnCode.SUCCESS;
+            }
 
             TransportPacket(() => Program.g_GameRoom.BroadCast(monsterStatePacket.Write()));
-            
+           
             return ReturnCode.SUCCESS;
         }
 
         private ReturnCode MoveToPosition()
         {
-            m_MonsterState = MonsterState.Move;
             Vector3 dir = m_Target.m_Position - m_Position;
 
             if (dir == Vector3.Zero)
@@ -215,24 +240,15 @@ namespace ServerContent
             {
                 dir = Vector3.Normalize(dir);
             }
+
             float fixY = m_Position.Y;
             m_Position += dir * m_BlackBoard.m_MoveSpeed.Key * (float)LTimer.m_SPF;
             m_Position = new Vector3(m_Position.X, fixY, m_Position.Z);
-            // 패킷 보내기
-            S_BroadcastMovePacket movePacket = new S_BroadcastMovePacket();
-            movePacket.m_MonsterId = (ushort)m_ObjectId;
-            movePacket.m_PosX = m_Position.X;
-            movePacket.m_PosY = m_Position.Y;
-            movePacket.m_PosZ = m_Position.Z;
+            SendMovePacket();
 
-            S_BroadcastMonsterStatePacket monsterStatePacket = new S_BroadcastMonsterStatePacket();
-            monsterStatePacket.m_MonsterId = (ushort)m_ObjectId;
-            monsterStatePacket.m_CurrentState = (ushort)m_MonsterState;
-
-            TransportPacket(() => Program.g_GameRoom.BroadCast(monsterStatePacket.Write()));
-            TransportPacket(() => Program.g_GameRoom.BroadCast(movePacket.Write()));
-            
             return ReturnCode.SUCCESS;
         }
+
+        
     }
 }

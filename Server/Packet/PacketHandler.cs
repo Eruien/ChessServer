@@ -125,20 +125,13 @@ namespace Server
 
         public void C_ConfirmMovePacketHandler(Session session, IPacket packet)
         {
-            C_ConfirmMovePacket confrimMovePacket = packet as C_ConfirmMovePacket;
+            C_ConfirmMovePacket confirmMovePacket = packet as C_ConfirmMovePacket;
             ClientSession clientSession = session as ClientSession;
 
             if (clientSession.m_GameRoom == null) return;
 
-            BaseObject monster = Managers.Object.GetObject(confrimMovePacket.m_MonsterId);
-            S_BroadcastMovePacket broadcastMovePacket = new S_BroadcastMovePacket();
-            broadcastMovePacket.m_MonsterId = (ushort)monster.m_ObjectId;
-            broadcastMovePacket.m_PosX = monster.m_Position.X;
-            broadcastMovePacket.m_PosY = monster.m_Position.Y;
-            broadcastMovePacket.m_PosZ = monster.m_Position.Z;
-
-            Room room = clientSession.m_GameRoom;
-            room.BroadCast(broadcastMovePacket.Write());
+            BaseObject monster = Managers.Object.GetObject(confirmMovePacket.m_MonsterId);
+            monster.m_IsPosCorrect = confirmMovePacket.m_IsCorrect;
         }
 
         public void C_AttackDistancePacketHandler(Session session, IPacket packet)
@@ -184,6 +177,7 @@ namespace Server
 
             BaseObject obj = Managers.Object.GetObject(changeTargetPacket.m_ObjectId);
             BaseMonster monster = obj as BaseMonster;
+            monster.m_IsPosCorrect = false;
             BaseObject targetObject = Managers.Object.GetObject(monster.SearchNearTarget().m_ObjectId);
             obj.m_BlackBoard.m_TargetObject.Key = targetObject;
             monster.m_Target = targetObject;

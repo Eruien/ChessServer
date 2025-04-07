@@ -20,6 +20,7 @@ namespace Server
             {
                 session.Send(m_PendingList);
             }
+            Console.WriteLine($"Flushed {m_PendingList.Count}");
             m_PendingList.Clear();
         }
 
