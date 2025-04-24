@@ -12,7 +12,8 @@ namespace ServerContent
         // public, protected, private 순서
         // 참조타입, 구조체, 일반 타입
         // 거리 계산이나 이런것을 위하여
-        public static System.Action m_SearchNearTarget;
+        public static System.Action? m_SearchNearTarget;
+        
         public BaseObject m_Target { get; set; }
         public BaseObject m_TargetLab { get; set; }
         public MonsterType m_MonsterType { get; set; } = MonsterType.None;
@@ -22,14 +23,14 @@ namespace ServerContent
         private float m_TransportPacketTime = 0.1f;
         private float m_CurrentTime = 0.0f;
         private float m_PushingSpeed = 3.0f;
-        private float m_PushingSpan = 1.0f;
+        private float m_PushingSpan = 0.8f;
 
         // 생성자 소멸자
         public BaseMonster(BaseObject laboratory)
         {
             m_TargetLab = laboratory;
-            m_Target = m_TargetLab;
-            m_SearchNearTarget += () => SearchFristTarget();
+            SetTarget(m_TargetLab);
+            m_SearchNearTarget += () => TargetChange();
         }
 
         // 기본 로직 Init, Frame, Render, Release
@@ -47,9 +48,9 @@ namespace ServerContent
             {
                 m_CurrentTime += (float)LTimer.m_SPF;
 
-                if (m_Target != null)
+                if (GetTarget() != null)
                 {
-                    CollisionAvoidance();
+                    //CollisionAvoidance();
                     m_BlackBoard.m_AttackDistance.Key = (float)ComputeAttackDistance();
                     m_Selector.Tick();
                 }
@@ -95,10 +96,18 @@ namespace ServerContent
             m_Position = new Vector3(x, y, z);
         }
 
+        public BaseObject GetTarget()
+        {
+            return m_Target;
+        }
+
         public void SetTarget(BaseObject obj)
         {
+            if (obj == null) return;
+
             m_Target = obj;
             m_BlackBoard.m_TargetObject.Key = m_Target;
+            m_Target.m_TargetChangeObserver += TargetChange;
         }
 
         protected override void SetBlackBoardKey()
@@ -116,7 +125,7 @@ namespace ServerContent
 
         private double ComputeAttackDistance()
         {
-            Vector3 vec = m_Target.m_Position - m_Position;
+            Vector3 vec = GetTarget().m_Position - m_Position;
             double dis = Math.Pow(vec.X * vec.X + vec.Z * vec.Z, 0.5f);
 
             return dis;
@@ -130,7 +139,7 @@ namespace ServerContent
             }
         }
 
-        private void SendMovePacket()
+        public void SendMovePacket()
         {
             // 패킷 보내기
             S_BroadcastMovePacket movePacket = new S_BroadcastMovePacket();
@@ -194,15 +203,16 @@ namespace ServerContent
             return nearTarget;
         }
 
-        public void SearchFristTarget()
-        {   
+        public void TargetChange()
+        {
+            m_IsPosCorrect = false;
             S_BroadcastChangeTargetPacket broadcastChangeTarget = new S_BroadcastChangeTargetPacket();
             broadcastChangeTarget.m_ObjectId = (ushort)m_ObjectId;
-            broadcastChangeTarget.m_TargetObjectId = (ushort)SearchNearTarget().m_ObjectId;
-
-            TransportPacket(() => Program.g_GameRoom.BroadCast(broadcastChangeTarget.Write()));
+            SetTarget(SearchNearTarget());
+            broadcastChangeTarget.m_TargetObjectId = (ushort)GetTarget().m_ObjectId;
+            Program.g_GameRoom.BroadCast(broadcastChangeTarget.Write());
         }
-         
+
         // TaskNode 모음
         private ReturnCode Attack()
         {
@@ -211,7 +221,7 @@ namespace ServerContent
             monsterStatePacket.m_MonsterId = (ushort)m_ObjectId;
             monsterStatePacket.m_CurrentState = (ushort)m_MonsterState;
            
-            if (!m_IsPosCorrect)
+           /* if (!m_IsPosCorrect)
             {
                 SendMovePacket();
                 S_ConfirmMovePacket confirmMovePacket = new S_ConfirmMovePacket();
@@ -221,7 +231,7 @@ namespace ServerContent
                 confirmMovePacket.m_PosZ = m_Position.Z;
                 TransportPacket(() => Program.g_GameRoom.BroadCast(confirmMovePacket.Write()));
                 return ReturnCode.SUCCESS;
-            }
+            }*/
 
             TransportPacket(() => Program.g_GameRoom.BroadCast(monsterStatePacket.Write()));
            
@@ -230,7 +240,7 @@ namespace ServerContent
 
         private ReturnCode MoveToPosition()
         {
-            Vector3 dir = m_Target.m_Position - m_Position;
+            Vector3 dir = GetTarget().m_Position - m_Position;
 
             if (dir == Vector3.Zero)
             {

@@ -98,7 +98,7 @@ namespace Server
             broadcastMonsterPacket.m_PosX = monsterCreatePacket.m_PosX;
             broadcastMonsterPacket.m_PosY = monsterCreatePacket.m_PosY;
             broadcastMonsterPacket.m_PosZ = monsterCreatePacket.m_PosZ;
-           
+            Console.WriteLine("몬스터 소환");
             Room room = clientSession.m_GameRoom;
             room.BroadCast(broadcastMonsterPacket.Write());
         }
@@ -129,9 +129,10 @@ namespace Server
             ClientSession clientSession = session as ClientSession;
 
             if (clientSession.m_GameRoom == null) return;
-
-            BaseObject monster = Managers.Object.GetObject(confirmMovePacket.m_MonsterId);
+            
+            BaseMonster monster = Managers.Object.GetObject(confirmMovePacket.m_MonsterId) as BaseMonster;
             monster.m_IsPosCorrect = confirmMovePacket.m_IsCorrect;
+            monster.SendMovePacket();
         }
 
         public void C_AttackDistancePacketHandler(Session session, IPacket packet)
@@ -153,24 +154,31 @@ namespace Server
 
             if (clientSession.m_GameRoom == null) return;
 
-            BaseObject monster = Managers.Object.GetObject(hitPacket.m_MonsterId);
+            BaseMonster monster = Managers.Object.GetObject(hitPacket.m_MonsterId) as BaseMonster;
             BaseObject targetObject =  Managers.Object.GetObject(hitPacket.m_TargetObjectId);
             targetObject.m_BlackBoard.m_HP.Key -= monster.m_BlackBoard.m_DefaultAttackDamage.Key;
 
-            if (targetObject.m_BlackBoard.m_HP.Key <= 0)
+            if (MathF.Abs(targetObject.m_BlackBoard.m_HP.Key) <= float.Epsilon)
             {
                 S_BroadcastMonsterDeathPacket monsterDeathPacket = new S_BroadcastMonsterDeathPacket();
                 monsterDeathPacket.m_MonsterId = (ushort)targetObject.m_ObjectId;
 
                 targetObject.m_IsDeath = true;
-                Room room = clientSession.m_GameRoom;
-                room.BroadCast(monsterDeathPacket.Write());
+
+                if (targetObject.m_TargetChangeObserver != null)
+                {
+                    targetObject.m_TargetChangeObserver.Invoke();
+                    targetObject.ClearChangeObserverListener();
+                    Room room = clientSession.m_GameRoom;
+
+                    room.BroadCast(monsterDeathPacket.Write());
+                }
             }
         }
 
         public void C_ChangeTargetPacketHandler(Session session, IPacket packet)
         {
-            C_ChangeTargetPacket changeTargetPacket = packet as C_ChangeTargetPacket;
+           /* C_ChangeTargetPacket changeTargetPacket = packet as C_ChangeTargetPacket;
             ClientSession clientSession = session as ClientSession;
 
             if (clientSession.m_GameRoom == null) return;
@@ -186,7 +194,7 @@ namespace Server
             broadcastChangeTarget.m_TargetObjectId = (ushort)targetObject.m_ObjectId;
 
             Room room = clientSession.m_GameRoom;
-            room.BroadCast(broadcastChangeTarget.Write());
+            room.BroadCast(broadcastChangeTarget.Write());*/
         }
     }
 }
