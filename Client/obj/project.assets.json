@@ -33,11 +33,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Client\\Client.csproj",
+      "projectUniqueName": "C:\\Users\\ogkim\\OneDrive\\Desktop\\UnityClient\\ChessServer\\Client\\Client.csproj",
       "projectName": "Client",
-      "projectPath": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Client\\Client.csproj",
+      "projectPath": "C:\\Users\\ogkim\\OneDrive\\Desktop\\UnityClient\\ChessServer\\Client\\Client.csproj",
       "packagesPath": "C:\\Users\\ogkim\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\Client\\obj\\",
+      "outputPath": "C:\\Users\\ogkim\\OneDrive\\Desktop\\UnityClient\\ChessServer\\Client\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -58,8 +58,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\ServerCore\\ServerCore.csproj": {
-              "projectPath": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\ServerCore\\ServerCore.csproj"
+            "C:\\Users\\ogkim\\OneDrive\\Desktop\\UnityClient\\ChessServer\\ServerCore\\ServerCore.csproj": {
+              "projectPath": "C:\\Users\\ogkim\\OneDrive\\Desktop\\UnityClient\\ChessServer\\ServerCore\\ServerCore.csproj"
             }
           }
         }
@@ -73,7 +73,8 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      }
+      },
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net8.0": {
@@ -94,7 +95,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

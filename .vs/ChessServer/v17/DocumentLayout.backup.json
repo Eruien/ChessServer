@@ -172,7 +172,8 @@
               "RelativeToolTip": "Client\\ServerSession.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-30T16:42:58.175Z"
+              "WhenOpened": "2025-07-30T16:42:58.175Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -184,7 +185,8 @@
               "RelativeToolTip": "Client\\SessionManager.cs",
               "ViewState": "AgIAABUAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-30T16:42:54.259Z"
+              "WhenOpened": "2025-07-30T16:42:54.259Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -196,7 +198,8 @@
               "RelativeToolTip": "Server\\BehaviorTree\\DecorateFunc.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAEwAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-28T13:02:08.324Z"
+              "WhenOpened": "2024-12-28T13:02:08.324Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -208,7 +211,8 @@
               "RelativeToolTip": "Server\\Program.cs",
               "ViewState": "AgIAAAwAAAAAAAAAAAAzwBsAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-26T13:44:25.396Z"
+              "WhenOpened": "2024-12-26T13:44:25.396Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -220,7 +224,8 @@
               "RelativeToolTip": "Server\\BehaviorTree\\BlackBoard.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-27T07:45:34.862Z"
+              "WhenOpened": "2024-12-27T07:45:34.862Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -232,7 +237,8 @@
               "RelativeToolTip": "Server\\Packet\\PacketHandler.cs",
               "ViewState": "AgIAAGIAAAAAAAAAAAAawGkAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-26T13:43:23.071Z"
+              "WhenOpened": "2024-12-26T13:43:23.071Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -244,7 +250,8 @@
               "RelativeToolTip": "Server\\Monster\\BaseObject.cs",
               "ViewState": "AgIAABMAAAAAAAAAAAAuwBMAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-26T13:46:16.873Z"
+              "WhenOpened": "2024-12-26T13:46:16.873Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -256,7 +263,8 @@
               "RelativeToolTip": "Server\\BehaviorTree\\Composite.cs",
               "ViewState": "AgIAAOEAAAAAAAAAAAAswO8AAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-27T07:45:35.409Z"
+              "WhenOpened": "2024-12-27T07:45:35.409Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -268,7 +276,8 @@
               "RelativeToolTip": "Server\\Monster\\Lab.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T21:56:14.693Z"
+              "WhenOpened": "2025-01-08T21:56:14.693Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -280,7 +289,8 @@
               "RelativeToolTip": "Client\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-08T11:25:31.632Z"
+              "WhenOpened": "2025-01-08T11:25:31.632Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -292,7 +302,8 @@
               "RelativeToolTip": "Server\\Managers\\LabManager.cs",
               "ViewState": "AgIAAB4AAAAAAAAAAAAYwBIAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-03T12:20:33.163Z"
+              "WhenOpened": "2025-01-03T12:20:33.163Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -304,7 +315,8 @@
               "RelativeToolTip": "Server\\Managers\\DataManager.cs",
               "ViewState": "AgIAABUAAAAAAAAAAAAIwBsAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-27T10:37:03.951Z"
+              "WhenOpened": "2024-12-27T10:37:03.951Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -314,7 +326,7 @@
               "RelativeDocumentMoniker": "Server\\Packet\\Packet.cs",
               "ToolTip": "C:\\Users\\ogkim\\OneDrive\\Desktop\\UnityClient\\ChessServer\\Server\\Packet\\Packet.cs",
               "RelativeToolTip": "Server\\Packet\\Packet.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAowCQAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAOQAAAAAAAAAAAAjwPYAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-23T03:41:37.787Z",
               "EditorCaption": ""
@@ -353,7 +365,8 @@
               "RelativeToolTip": "Server\\ClientSession.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-27T10:36:05.555Z"
+              "WhenOpened": "2024-12-27T10:36:05.555Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -365,7 +378,8 @@
               "RelativeToolTip": "Server\\Monster\\BaseMonster.cs",
               "ViewState": "AgIAADwAAAAAAAAAAAAqwF0AAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-26T13:45:53.022Z"
+              "WhenOpened": "2024-12-26T13:45:53.022Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",

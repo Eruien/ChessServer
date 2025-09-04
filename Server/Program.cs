@@ -22,10 +22,10 @@ namespace Server
             Lab blueTeamLab = new Lab();
             redTeamLab.m_SelfTeam = Team.RedTeam;
             redTeamLab.Init();
-            redTeamLab.SetPosition(0.0f, 2.904f, -22.0f);
+            redTeamLab.SetPosition(1.11f, 1.0f, -17.5096f);
             blueTeamLab.m_SelfTeam = Team.BlueTeam;
             blueTeamLab.Init();
-            blueTeamLab.SetPosition(0.0f, 2.904f, 22.0f);
+            blueTeamLab.SetPosition(1.11f, 1.0f, 17.5096f);
 
             int redNumber = Managers.Object.Register(redTeamLab);
             redTeamLab.m_ObjectId = redNumber;

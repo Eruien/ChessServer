@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\TestProject\\TestProject.csproj": {}
+    "C:\\Users\\ogkim\\OneDrive\\Desktop\\UnityClient\\ChessServer\\TestProject\\TestProject.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\TestProject\\TestProject.csproj": {
+    "C:\\Users\\ogkim\\OneDrive\\Desktop\\UnityClient\\ChessServer\\TestProject\\TestProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\TestProject\\TestProject.csproj",
+        "projectUniqueName": "C:\\Users\\ogkim\\OneDrive\\Desktop\\UnityClient\\ChessServer\\TestProject\\TestProject.csproj",
         "projectName": "TestProject",
-        "projectPath": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\TestProject\\TestProject.csproj",
+        "projectPath": "C:\\Users\\ogkim\\OneDrive\\Desktop\\UnityClient\\ChessServer\\TestProject\\TestProject.csproj",
         "packagesPath": "C:\\Users\\ogkim\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ogkim\\Desktop\\UnityServer\\ChessServer\\TestProject\\obj\\",
+        "outputPath": "C:\\Users\\ogkim\\OneDrive\\Desktop\\UnityClient\\ChessServer\\TestProject\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -43,7 +43,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -64,7 +65,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
